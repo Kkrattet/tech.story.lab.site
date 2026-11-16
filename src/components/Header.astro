@@ -1,0 +1,225 @@
+---
+import logo from "../assets/logo.png";
+
+const navLinks = [
+  { label: "Udstyr", href: "/udstyr" },
+  { label: "Studios", href: "/studios" },
+  { label: "Ny i labbet?", href: "/ny-i-labbet" },
+  { label: "Inspiration", href: "/inspiration" },
+  { label: "Events & workshops", href: "/events" },
+  { label: "For undervisere", href: "/for-undervisere" },
+  { label: "Om os", href: "/om" },
+];
+
+const currentPath = Astro.url.pathname;
+---
+
+<header class="header">
+  <div class="container header__inner">
+    <a href="/" class="header__logo">
+      <img src={logo.src} alt="EK Tech & Story Lab – til forsiden" width="104" height="86" />
+    </a>
+
+    <button class="header__toggle" aria-expanded="false" aria-controls="main-nav">
+      <span class="visually-hidden">Menu</span>
+      <span class="header__burger"></span>
+    </button>
+
+    <nav id="main-nav" class="header__nav">
+      <ul>
+        {navLinks.map((link) => (
+          <li>
+            <a
+              href={link.href}
+              class={currentPath.startsWith(link.href) ? "active" : ""}
+              aria-current={currentPath.startsWith(link.href) ? "page" : undefined}
+            >
+              {link.label}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+  </div>
+
+  <div class="header__progress" aria-hidden="true">
+    <div class="header__progress-fill"></div>
+  </div>
+</header>
+
+<script>
+  // Burgermenu: åbner og lukker menuen på mobil
+  const toggle = document.querySelector(".header__toggle");
+  const nav = document.querySelector(".header__nav");
+
+  toggle?.addEventListener("click", () => {
+    const open = toggle.getAttribute("aria-expanded") === "true";
+    toggle.setAttribute("aria-expanded", String(!open));
+    nav?.classList.toggle("open");
+  });
+
+  // Scroll-indikator: fylder bjælken op, mens man scroller
+  const fill = document.querySelector<HTMLElement>(".header__progress-fill");
+
+  function updateProgress() {
+    const scrollable = document.documentElement.scrollHeight - window.innerHeight;
+    const progress = scrollable > 0 ? (window.scrollY / scrollable) * 100 : 0;
+    if (fill) fill.style.width = `${progress}%`;
+  }
+
+  window.addEventListener("scroll", updateProgress);
+  window.addEventListener("resize", updateProgress);
+  updateProgress();
+</script>
+
+<style>
+  .header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: var(--color-bordeaux);
+  }
+
+  .header__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 112px;
+  }
+
+  .header__logo img {
+    display: block;
+    width: 104px;
+    height: 86px;
+    object-fit: contain;
+    mix-blend-mode: lighten;
+  }
+
+  .header__nav ul {
+    display: flex;
+    gap: 30px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .header__nav a {
+    position: relative;
+    display: inline-block;
+    color: var(--color-offwhite-50);
+    font-weight: 600;
+    font-size: 1.25rem;
+    line-height: 1.2;
+    text-decoration: none;
+  }
+
+  /* Den lysende magenta streg under menupunktet */
+  .header__nav a::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -5px;
+    height: 3px;
+    border-radius: 2px;
+    background: var(--color-magenta);
+    box-shadow: 0 0 8px rgba(227, 25, 202, 0.85);
+    opacity: 0;
+    transition: opacity 0.2s ease;
+  }
+
+  .header__nav a:hover::after {
+    opacity: 0.5;
+  }
+
+  .header__nav a.active::after {
+    opacity: 1;
+  }
+
+  /* Scroll-indikator */
+  .header__progress {
+    height: 4px;
+    border-top: 1px solid var(--color-pink);
+    background: rgba(255, 141, 157, 0.3);
+  }
+
+  .header__progress-fill {
+    width: 0;
+    height: 100%;
+    background: var(--color-pink);
+  }
+
+  /* Burgermenu-knap (vises kun på mobil) */
+  .header__toggle {
+    display: none;
+    width: 44px;
+    height: 44px;
+    background: none;
+    border: 0;
+    cursor: pointer;
+  }
+
+  .header__burger,
+  .header__burger::before,
+  .header__burger::after {
+    display: block;
+    position: relative;
+    width: 28px;
+    height: 3px;
+    border-radius: 2px;
+    background: var(--color-offwhite-50);
+  }
+
+  .header__burger::before,
+  .header__burger::after {
+    content: "";
+    position: absolute;
+  }
+
+  .header__burger::before { top: -9px; }
+  .header__burger::after { top: 9px; }
+
+  .visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+  }
+
+  /* Mobil og tablet */
+  @media (max-width: 1024px) {
+    .header__inner {
+      min-height: 72px;
+    }
+
+    .header__logo img {
+      width: 64px;
+      height: 53px;
+    }
+
+    .header__toggle {
+      display: block;
+    }
+
+    .header__nav {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      padding: 24px var(--gutter);
+      background: var(--color-bordeaux);
+      border-bottom: 1px solid var(--color-pink);
+    }
+
+    .header__nav.open {
+      display: block;
+    }
+
+    .header__nav ul {
+      flex-direction: column;
+      gap: 24px;
+    }
+  }
+</style>

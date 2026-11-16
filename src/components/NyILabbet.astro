@@ -1,0 +1,191 @@
+---
+import Button from "./Button.astro";
+import kameraBillede from "../assets/kamera.svg";
+
+// Ikoner – fjern // foran linjerne, når ikonerne ligger i src/assets
+// import ikonKamera from "../assets/ikon-kamera.svg";
+// import ikonKalender from "../assets/ikon-kalender.svg";
+// import ikonPersoner from "../assets/ikon-personer.svg";
+// import ikonKlaptrae from "../assets/ikon-klaptrae.svg";
+
+const trin: { label: string; ikon?: ImageMetadata }[] = [
+  { label: "1. Find udstyret" /*, ikon: ikonKamera */ },
+  { label: "2. Tjek ledighed" /*, ikon: ikonKalender */ },
+  { label: "3. Få introduktion" /*, ikon: ikonPersoner */ },
+  { label: "4. Skab noget!" /*, ikon: ikonKlaptrae */ },
+];
+---
+
+<section class="ny gradient-wine-pink">
+  <div class="container ny__inner">
+    <img
+      class="ny__kamera"
+      src={kameraBillede.src}
+      alt="Pink kamera med arme, der holder et skilt, hvor der står Kom i gang"
+      width={kameraBillede.width}
+      height={kameraBillede.height}
+      loading="lazy"
+    />
+
+    <div class="ny__content">
+      <p class="ny__eyebrow">Ny i labbet?</p>
+      <h2 class="ny__title">Aldrig prøvet det før? Perfekt!</h2>
+      <p class="ny__subtitle">Vi viser dig meget gerne, hvordan det hele virker.</p>
+
+      <ol class="ny__steps">
+        {trin.map((step) => (
+          <li class="ny__step">
+            <span class="ny__circle">
+              {step.ikon && <img src={step.ikon.src} alt="" width={step.ikon.width} height={step.ikon.height} />}
+            </span>
+            <span class="ny__label">{step.label}</span>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </div>
+
+  <div class="ny__button">
+    <Button href="/ny-i-labbet">Er du ny i labbet?</Button>
+  </div>
+</section>
+
+<style>
+  .ny {
+    padding: 120px 0 110px;
+    color: var(--color-offwhite-50);
+  }
+
+  /* Kamera til venstre, indhold til højre */
+  .ny__inner {
+    display: grid;
+    grid-template-columns: 317px 1fr;
+    align-items: end;
+    gap: 86px;
+  }
+
+  .ny__kamera {
+    width: 100%;
+    height: auto;
+  }
+
+  /* Tekst */
+  .ny__eyebrow {
+    margin: 0;
+    font-size: 1.25rem;
+    line-height: 1.5;
+    text-transform: uppercase;
+  }
+
+  .ny__title {
+    max-width: 860px;
+    color: var(--color-offwhite-50);
+    line-height: 1;
+  }
+
+  /* H3 – 26 Oso Serif, Light italic */
+  .ny__subtitle {
+    margin: 10px 0 0;
+    font-family: var(--font-serif);
+    font-size: 1.625rem;
+    font-style: italic;
+    font-weight: 300;
+    line-height: 1.1;
+  }
+
+  /* De fire trin */
+  .ny__steps {
+    display: flex;
+    justify-content: space-between;
+    max-width: 850px;
+    margin: 84px 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .ny__step {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+  }
+
+  /* Pilen mellem trinene (ikke efter det sidste) */
+  .ny__step:not(:last-child)::after {
+    content: "→";
+    position: absolute;
+    top: 44px;
+    right: -78px;
+    color: var(--color-pink);
+    font-size: 2.5rem;
+    line-height: 1;
+  }
+
+  .ny__circle {
+    display: grid;
+    place-items: center;
+    width: 137px;
+    height: 137px;
+    border-radius: 50%;
+    background: var(--color-pink);
+  }
+
+  .ny__circle img {
+    width: 75%;
+    height: auto;
+  }
+
+  /* B2 – 16 Oso Sans, Semibold */
+  .ny__label {
+    font-size: 1rem;
+    font-weight: 600;
+    line-height: 1.5;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .ny__button {
+    display: flex;
+    justify-content: center;
+    margin-top: 120px;
+  }
+
+  @media (max-width: 1100px) {
+    .ny__step:not(:last-child)::after {
+      display: none;
+    }
+  }
+
+  @media (max-width: 900px) {
+    .ny {
+      padding: 64px 0;
+    }
+
+    .ny__inner {
+      grid-template-columns: 1fr;
+      gap: 32px;
+    }
+
+    .ny__kamera {
+      max-width: 220px;
+      margin-inline: auto;
+    }
+
+    .ny__steps {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px 16px;
+      margin-top: 48px;
+    }
+
+    .ny__circle {
+      width: 110px;
+      height: 110px;
+    }
+
+    .ny__button {
+      margin-top: 56px;
+    }
+  }
+</style>

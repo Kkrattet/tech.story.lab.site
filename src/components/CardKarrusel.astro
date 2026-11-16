@@ -1,0 +1,212 @@
+---
+import Card from "./Card.astro";
+
+interface Kort {
+  title: string;
+  text: string;
+  image?: ImageMetadata;
+  imageAlt?: string;
+  href: string;
+  farve?: "pink" | "wine";
+  linkLabel?: string;
+  status?: string;
+}
+
+interface Props {
+  title: string;
+  subtitle?: string;
+  baggrund?:
+    | "gradient-wine"
+    | "gradient-off-white"
+    | "gradient-wine-pink"
+    | "gradient-white-pink"
+    | "gradient-bordeaux-wine"
+    | "gradient-pink-white"
+    | "gradient-pink-wine";
+  kort: Kort[];
+}
+
+const { title, subtitle, baggrund = "gradient-wine", kort } = Astro.props;
+---
+
+<section class={`karrusel ${baggrund}`}>
+  <div class="container karrusel__head">
+    <div>
+      <h2 class="karrusel__title">{title}</h2>
+      {subtitle && <p class="karrusel__subtitle">{subtitle}</p>}
+    </div>
+
+    <div class="karrusel__arrows">
+      <button class="karrusel__arrow" data-dir="-1" aria-label="Forrige kort">←</button>
+      <button class="karrusel__arrow" data-dir="1" aria-label="Næste kort">→</button>
+    </div>
+  </div>
+
+  <div class="karrusel__track">
+    {kort.map((item) => (
+      <div class="karrusel__item">
+        <Card {...item} />
+      </div>
+    ))}
+  </div>
+
+  <div class="karrusel__dots">
+    {kort.map((_, index) => (
+      <button
+        class={`karrusel__dot ${index === 0 ? "active" : ""}`}
+        data-index={index}
+        aria-label={`Gå til kort ${index + 1}`}
+      ></button>
+    ))}
+  </div>
+</section>
+
+<script>
+  // Kører for hver karrusel på siden, så der kan være flere
+  document.querySelectorAll<HTMLElement>(".karrusel").forEach((karrusel) => {
+    const track = karrusel.querySelector<HTMLElement>(".karrusel__track");
+    const items = karrusel.querySelectorAll<HTMLElement>(".karrusel__item");
+    const arrows = karrusel.querySelectorAll<HTMLButtonElement>(".karrusel__arrow");
+    const dots = karrusel.querySelectorAll<HTMLButtonElement>(".karrusel__dot");
+
+    if (!track || items.length === 0) return;
+
+    // Hvor langt der er fra ét kort til det næste (kortets bredde + mellemrum)
+    function step() {
+      if (items.length < 2) return items[0].offsetWidth;
+      return items[1].offsetLeft - items[0].offsetLeft;
+    }
+
+    // Pilene: ryk ét kort frem eller tilbage
+    arrows.forEach((arrow) => {
+      arrow.addEventListener("click", () => {
+        const dir = Number(arrow.dataset.dir);
+        track.scrollBy({ left: dir * step(), behavior: "smooth" });
+      });
+    });
+
+    // Prikkerne: hop direkte til et bestemt kort
+    dots.forEach((dot) => {
+      dot.addEventListener("click", () => {
+        const index = Number(dot.dataset.index);
+        track.scrollTo({ left: index * step(), behavior: "smooth" });
+      });
+    });
+
+    // Når man scroller eller swiper: opdater, hvilken prik der er aktiv
+    track.addEventListener("scroll", () => {
+      const active = Math.round(track.scrollLeft / step());
+      dots.forEach((dot, index) => {
+        dot.classList.toggle("active", index === active);
+      });
+    });
+  });
+</script>
+
+<style>
+   .karrusel {
+    padding: 100px 0 80px;
+    color: var(--color-offwhite-50);
+  }
+  /* Overskrift til venstre, pile til højre */
+  .karrusel__head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 24px;
+    margin-bottom: 50px;
+  }
+
+  .karrusel__title {
+    color: var(--color-offwhite-50);
+  }
+
+  .karrusel__subtitle {
+    margin: 8px 0 0;
+    font-size: 1.25rem;
+  }
+
+  .karrusel__arrows {
+    display: flex;
+    gap: 12px;
+  }
+
+  .karrusel__arrow {
+    width: 52px;
+    height: 52px;
+    border: 0;
+    border-radius: 50%;
+    background: var(--color-yellow);
+    color: var(--color-black);
+    font-size: 1.375rem;
+    font-weight: 900;
+    cursor: pointer;
+    transition: transform 0.15s ease;
+  }
+
+  .karrusel__arrow:hover {
+    transform: translateY(-2px);
+  }
+
+  /* Rækken med kort, der kan scrolles vandret */
+  .karrusel__track {
+    display: flex;
+    gap: 40px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: var(--gutter);
+    padding-inline: max(var(--gutter), calc((100vw - var(--max-width)) / 2 + var(--gutter)));
+    scrollbar-width: none;
+  }
+
+  .karrusel__track::-webkit-scrollbar {
+    display: none;
+  }
+
+  .karrusel__item {
+    flex: 0 0 359px;
+    scroll-snap-align: start;
+  }
+
+  /* Prikkerne under kortene */
+  .karrusel__dots {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 40px;
+  }
+
+  .karrusel__dot {
+    width: 12px;
+    height: 12px;
+    padding: 0;
+    border: 0;
+    border-radius: 6px;
+    background: rgba(253, 249, 237, 0.4);
+    cursor: pointer;
+    transition: width 0.2s ease, background 0.2s ease;
+  }
+
+  .karrusel__dot.active {
+    width: 36px;
+    background: var(--color-yellow);
+  }
+
+  @media (max-width: 600px) {
+    .karrusel {
+      padding-block: 56px;
+    }
+
+    .karrusel__arrows {
+      display: none;
+    }
+
+    .karrusel__item {
+      flex-basis: 80%;
+    }
+
+    .karrusel__track {
+      gap: 16px;
+    }
+  }
+</style>

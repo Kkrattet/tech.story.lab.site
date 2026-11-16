@@ -1,0 +1,148 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Hero from "../components/Hero.astro";
+import CardKarrusel from "../components/CardKarrusel.astro";
+import Section from "../components/Section.astro";
+import EventCard from "../components/EventCard.astro";
+import ImageText from "../components/ImageText.astro";
+import NyILabbet from "../components/NyILabbet.astro";
+import Galleri from "../components/Galleri.astro";
+// import billedeTeamet from "../assets/teamet.png";
+import logo from "../assets/logo.png";
+
+// Billeder til "Find vej i labbet"
+// Fjern // foran linjerne, når billederne ligger i src/assets
+// import kortStudio from "../assets/kort-studio.png";
+// import kortUdstyr from "../assets/kort-udstyr.png";
+// import kortBook from "../assets/kort-book.png";
+// import kortNy from "../assets/kort-ny.png";
+// import kortProjekter from "../assets/kort-projekter.png";
+// import kortEvents from "../assets/kort-events.png";
+// import kortOmOs from "../assets/kort-om-os.png";
+
+const findVejKort = [
+  {
+    title: "Studio",
+    text: "Book et studie til podcast, foto og video.",
+    href: "/studios",
+    // image: kortStudio,
+  },
+  {
+    title: "Udstyr",
+    text: "Kameraer, mikrofoner, VR og meget mere.",
+    href: "/udstyr",
+    // image: kortUdstyr,
+  },
+  {
+    title: "Book & lån",
+    text: "Lån med dit studiekort. Book på to minutter.",
+    href: "/udstyr",
+    // image: kortBook,
+  },
+  {
+    title: "Ny i labbet?",
+    text: "Aldrig prøvet det før? Perfekt.",
+    href: "/ny-i-labbet",
+    // image: kortNy,
+  },
+  {
+    title: "Projekter",
+    text: "Se, hvad andre har skabt.",
+    href: "/inspiration",
+    // image: kortProjekter,
+  },
+  {
+    title: "Events",
+    text: "Workshops, foredrag og fredagsbar.",
+    href: "/events",
+    // image: kortEvents,
+  },
+  {
+    title: "Om os",
+    text: "Mød nørderne bag labbet.",
+    href: "/om",
+    // image: kortOmOs,
+  },
+];
+
+// Projekter til "Bliv inspireret"
+// Rækkefølgen bestemmer pladsen i gitteret (1 = stor øverst til venstre)
+// Senere kan listen hentes fra Supabase i stedet
+const projekter = [
+  { title: "Karma", text: "En podcast om livets op- og nedture" },
+  { title: "Hvor kigger vi?", text: "Et eksperiment med øjne og opmærksomhed" },
+  { title: "Uden grænser", text: "En virtuel oplevelse skabt af studerende" },
+  { title: "Portrætter med personlighed", text: "Et fotoprojekt om identitet og udtryk" },
+  { title: "Bag kulisserne", text: "Fra den første idé til den færdige film" },
+  { title: "Skabt sammen", text: "Et kreativt projekt fra idé til virkelighed" },
+  { title: "Mellem linjerne", text: "En podcast om det, vi sjældent taler om" },
+  { title: "Et øjeblik i livet", text: "En kortfilm om de små, store øjeblikke" },
+];
+
+const events = [
+  { dag: "12", maaned: "Nov", title: "Lær at bruge en gimbal", tid: "Kl. 14–16 · Tech & Story Lab" },
+  { dag: "19", maaned: "Nov", title: "Podcast fra idé til afsnit", tid: "Kl. 14–16 · Tech & Story Lab" },
+  { dag: "21", maaned: "Nov", title: "Fredagsbar i lobbyen", tid: "Kl. 14–16 · Tech & Story Lab" },
+];
+---
+
+<BaseLayout title="Forside">
+  <Hero
+    variant="forside"
+    eyebrow="EK Guldbergsgade · Lokale A025"
+    title="Dit lab til teknologi og storytelling"
+    subtitle="Lån udstyr, book et studie og få hjælp til at komme i gang. Gratis for alle på EK."
+    image={logo}
+    imageAlt="EK Tech & Story Lab"
+    buttons={[
+      { label: "Book et studie", href: "/studios" },
+      { label: "Find udstyr", href: "/udstyr" },
+    ]}
+    showHours
+  />
+
+  <CardKarrusel
+    title="Find vej i labbet"
+    subtitle="Swipe dig igennem labbet."
+    kort={findVejKort}
+  />
+
+  <Section
+    title="Bliv inspireret"
+    subtitle="Se, hvad andre studerende har skabt i labbet."
+    baggrund="gradient-off-white"
+    tekstfarve="mork"
+    kolonner={1}
+  >
+    <Galleri
+      projekter={projekter}
+      buttonText="Døren til inspiration"
+      buttonHref="/inspiration"
+    />
+  </Section>
+
+  <NyILabbet />
+
+  <Section
+    title="Events & workshops"
+    subtitle="Workshops for nysgerrige, ikke eksperter."
+    buttonText="Se alle events"
+    buttonHref="/events"
+    baggrund="gradient-white-pink"
+    tekstfarve="pink"
+  >
+    {events.map((event) => (
+      <EventCard {...event} href="/events" />
+    ))}
+  </Section>
+
+  <ImageText
+    title="Mød nørderne bag labbet"
+    subtitle="Spørg os om alt. Vi elsker det."
+    text="Vi er fire nørder med hver vores speciale – fra lyd og podcast til VR og programmering. Kig forbi i A025, så hjælper vi dig i gang med dit projekt."
+    buttonText="Mød teamet"
+    buttonHref="/om"
+    baggrund="gradient-pink-white"
+    tekstfarve="mork"
+  />
+</BaseLayout>

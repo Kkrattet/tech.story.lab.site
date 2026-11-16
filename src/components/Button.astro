@@ -1,0 +1,41 @@
+---
+const { href } = Astro.props;
+---
+
+<a href={href} class="button">
+  <slot />
+  <span class="button__arrow" aria-hidden="true">→</span>
+</a>
+
+<style>
+  .button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    height: 56px;
+    padding-inline: 36px;
+    border-radius: 28px;
+    background: var(--color-yellow);
+    color: var(--color-black);
+    font-size: 1.125rem;
+    font-weight: 600;
+    line-height: 1;
+    text-transform: uppercase;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: transform 0.15s ease;
+  }
+
+  .button:hover {
+    transform: translateY(-2px);
+  }
+
+  .button__arrow {
+    transition: transform 0.15s ease;
+  }
+
+  .button:hover .button__arrow {
+    transform: translateX(4px);
+  }
+</style>

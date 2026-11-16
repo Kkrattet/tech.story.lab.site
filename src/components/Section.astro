@@ -1,0 +1,113 @@
+---
+import Button from "./Button.astro";
+
+interface Props {
+  title: string;
+  subtitle?: string;
+  buttonText?: string;
+  buttonHref?: string;
+  baggrund?:
+    | "gradient-wine"
+    | "gradient-off-white"
+    | "gradient-wine-pink"
+    | "gradient-white-pink"
+    | "gradient-bordeaux-wine"
+    | "gradient-pink-white"
+    | "gradient-pink-wine";
+  tekstfarve?: "lys" | "mork" | "pink";
+  kolonner?: number;
+}
+
+const {
+  title,
+  subtitle,
+  buttonText,
+  buttonHref = "#",
+  baggrund = "gradient-wine",
+  tekstfarve = "lys",
+  kolonner = 3,
+} = Astro.props;
+---
+
+<section class={`section ${baggrund} section--${tekstfarve}`}>
+  <div class="container">
+    <div class="section__head">
+      <div>
+        <h2 class="section__title">{title}</h2>
+        {subtitle && <p class="section__subtitle">{subtitle}</p>}
+      </div>
+
+      {buttonText && <Button href={buttonHref}>{buttonText}</Button>}
+    </div>
+
+    <div class="section__grid" style={`--kolonner: ${kolonner}`}>
+      <slot />
+    </div>
+  </div>
+</section>
+
+<style>
+  .section {
+    padding: 140px 0;
+  }
+
+  .section__head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 24px;
+    margin-bottom: 64px;
+  }
+
+  /* H3 – 26 Oso Serif, Light italic */
+  .section__subtitle {
+    margin: 8px 0 0;
+    font-family: var(--font-serif);
+    font-size: 1.625rem;
+    font-style: italic;
+    font-weight: 300;
+    line-height: 1;
+  }
+
+  /* Tekstfarver */
+  .section--lys .section__title,
+  .section--lys .section__subtitle {
+    color: var(--color-offwhite-50);
+  }
+
+  .section--mork .section__title,
+  .section--mork .section__subtitle {
+    color: var(--color-wine);
+  }
+
+  /* Til pink baggrund: lys overskrift, mørk undertekst */
+  .section--pink .section__title {
+    color: var(--color-offwhite-50);
+  }
+
+  .section--pink .section__subtitle {
+    color: var(--color-bordeaux);
+  }
+
+  /* Kortene stilles op i kolonner */
+  .section__grid {
+    display: grid;
+    grid-template-columns: repeat(var(--kolonner), minmax(0, 1fr));
+    gap: 20px;
+  }
+
+  @media (max-width: 900px) {
+    .section {
+      padding: 64px 0;
+    }
+
+    .section__head {
+      flex-direction: column;
+      margin-bottom: 40px;
+    }
+
+    .section__grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

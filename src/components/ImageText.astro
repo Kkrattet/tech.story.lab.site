@@ -1,0 +1,174 @@
+---
+import Button from "./Button.astro";
+import { Image } from "astro:assets";
+
+interface Props {
+  title: string;
+  subtitle?: string;
+  text?: string | string[];
+  image?: ImageMetadata;
+  imageAlt?: string;
+  buttonText?: string;
+  buttonHref?: string;
+  omvendt?: boolean;
+  baggrund?:
+    | "gradient-wine"
+    | "gradient-off-white"
+    | "gradient-wine-pink"
+    | "gradient-white-pink"
+    | "gradient-bordeaux-wine"
+    | "gradient-pink-white"
+    | "gradient-pink-wine";
+  tekstfarve?: "lys" | "mork";
+}
+
+const {
+  title,
+  subtitle,
+  text,
+  image,
+  imageAlt = "",
+  buttonText,
+  buttonHref = "#",
+  omvendt = false,
+  baggrund = "gradient-pink-white",
+  tekstfarve = "mork",
+} = Astro.props;
+
+// Teksten kan være ét afsnit eller en liste af afsnit
+const afsnit = Array.isArray(text) ? text : text ? [text] : [];
+---
+
+<section class={`imagetext ${baggrund} imagetext--${tekstfarve}`}>
+  <div class={`container imagetext__inner ${omvendt ? "imagetext__inner--omvendt" : ""}`}>
+    {image ? (
+      <Image class="imagetext__image" src={image} alt={imageAlt} loading="lazy" />
+    ) : (
+      <div class="imagetext__placeholder" aria-hidden="true">
+        <span>Billede</span>
+      </div>
+    )}
+
+    <div class="imagetext__content">
+      <h2 class="imagetext__title">{title}</h2>
+      {subtitle && <p class="imagetext__subtitle">{subtitle}</p>}
+      {afsnit.map((tekst) => (
+        <p class="imagetext__text">{tekst}</p>
+      ))}
+      {buttonText && (
+        <div class="imagetext__button">
+          <Button href={buttonHref}>{buttonText}</Button>
+        </div>
+      )}
+    </div>
+  </div>
+</section>
+
+<style>
+  .imagetext {
+    padding: 115px 0;
+  }
+
+  /* Billede til venstre, tekst til højre */
+  .imagetext__inner {
+    display: grid;
+    grid-template-columns: minmax(0, 572px) minmax(0, 600px);
+    justify-content: center;
+    align-items: center;
+    gap: 100px;
+  }
+
+  /* Omvendt: tekst til venstre, billede til højre */
+  .imagetext__inner--omvendt .imagetext__image,
+  .imagetext__inner--omvendt .imagetext__placeholder {
+    order: 2;
+  }
+
+  .imagetext__image {
+    width: 100%;
+    height: auto;
+  }
+
+  .imagetext__placeholder {
+    display: grid;
+    place-items: center;
+    aspect-ratio: 572 / 551;
+    border: 2px dashed currentColor;
+    border-radius: 12px;
+    opacity: 0.5;
+    background:
+      linear-gradient(to top right, transparent calc(50% - 1px), currentColor 50%, transparent calc(50% + 1px)),
+      linear-gradient(to bottom right, transparent calc(50% - 1px), currentColor 50%, transparent calc(50% + 1px));
+  }
+
+  .imagetext__placeholder span {
+    padding: 4px 12px;
+    border-radius: 12px;
+    background: var(--color-offwhite-50);
+    color: var(--color-black);
+    font-size: 0.875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+  }
+
+  /* Tekstfarver */
+  .imagetext--mork {
+    color: var(--color-wine);
+  }
+
+  .imagetext--lys {
+    color: var(--color-offwhite-50);
+  }
+
+  .imagetext__title {
+    color: inherit;
+    line-height: 1;
+  }
+
+  /* H3 – 26 Oso Serif, Light italic */
+  .imagetext__subtitle {
+    margin: 16px 0 0;
+    font-family: var(--font-serif);
+    font-size: 1.625rem;
+    font-style: italic;
+    font-weight: 300;
+    line-height: 1.1;
+  }
+
+  /* B1 – 20 Oso Sans, Regular */
+  .imagetext__text {
+    margin: 24px 0 0;
+    font-size: 1.25rem;
+    line-height: 1.5;
+  }
+
+  .imagetext__subtitle + .imagetext__text {
+    margin-top: 50px;
+  }
+
+  .imagetext__button {
+    margin-top: 50px;
+  }
+
+  @media (max-width: 900px) {
+    .imagetext {
+      padding: 64px 0;
+    }
+
+    .imagetext__inner {
+      grid-template-columns: 1fr;
+      gap: 40px;
+    }
+
+    /* På mobil står billedet altid øverst */
+    .imagetext__inner--omvendt .imagetext__image,
+    .imagetext__inner--omvendt .imagetext__placeholder {
+      order: 0;
+    }
+
+    .imagetext__subtitle + .imagetext__text,
+    .imagetext__button {
+      margin-top: 32px;
+    }
+  }
+</style>

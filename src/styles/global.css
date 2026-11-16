@@ -1,0 +1,261 @@
+/* ===== VARIABLER ===== */
+:root {
+  /* ===== Primære farver ===== */
+  --color-black: #000000;
+  --color-black-100: #f5f5f5;
+  --color-black-200: #e6e6e6;
+  --color-black-400: #a5a5a5;
+  --color-black-600: #575757;
+  --color-black-800: #292929;
+  --color-black-900: #1a1a1a;
+
+  --color-offwhite: #fbedca;
+  --color-offwhite-50: #fdf9ed;
+  --color-offwhite-200: #f2db99;
+  --color-offwhite-400: #e5ac4b;
+  --color-offwhite-600: #c06c2c;
+  --color-offwhite-800: #813d20;
+  --color-offwhite-900: #6a331c;
+
+  --color-wine: #6d003e;
+  --color-wine-100: #fae6f7;
+  --color-wine-200: #f7cdef;
+  --color-wine-400: #ed70cc;
+  --color-wine-600: #d93597;
+  --color-wine-800: #9c2264;
+  --color-wine-900: #811e55;
+
+  --color-bordeaux: #3a0008;
+  --color-bordeaux-100: #fbe5e3;
+  --color-bordeaux-200: #f7cdcb;
+  --color-bordeaux-400: #ed716c;
+  --color-bordeaux-600: #db332f;
+  --color-bordeaux-900: #841d25;
+
+  /* ===== Sekundære farver ===== */
+  --color-pink: #ff8d9d;
+  --color-pink-100: #fae4e6;
+  --color-pink-200: #f7ced3;
+  --color-pink-400: #ed7787;
+  --color-pink-600: #d2354d;
+  --color-pink-800: #94233c;
+  --color-pink-900: #7f1f39;
+
+  --color-yellow: #e6ff00;
+  --color-yellow-100: #f8ffc9;
+  --color-yellow-200: #f3ff9b;
+  --color-yellow-400: #ebfe56;
+  --color-yellow-600: #b8c33e;
+  --color-yellow-800: #7a7a27;
+  --color-yellow-900: #686622;
+
+  /* ===== Effektfarve ===== */
+  --color-magenta: #e319ca;
+
+  /* ===== Tekstfarver ===== */
+  --color-text-light: #ffffff;
+  --color-text-dark: var(--color-bordeaux);
+
+  /* Skrifttyper */
+  --font-sans: "oso-sans", system-ui, sans-serif;
+  --font-sans-condensed: "oso-sans-condensed", "oso-sans", system-ui, sans-serif;
+  --font-serif: "oso-serif", Georgia, serif;
+
+  /* Former og afstande */
+  --radius-card: 24px;
+  --radius-button: 999px;
+  --max-width: 1360px;
+  --gutter: 40px;
+}
+
+/* På mobil bliver margen i siderne mindre */
+@media (max-width: 768px) {
+  :root {
+    --gutter: 16px;
+  }
+}
+
+/* ===== GRUNDREGLER ===== */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: 1.25rem;
+  line-height: 1.5;
+  color: var(--color-text-light);
+  background: var(--color-bordeaux);
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+/* ===== TYPOGRAFI ===== */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0;
+}
+
+/* H1 – 85/100 Oso Sans, Bold */
+h1 {
+  font-family: var(--font-sans);
+  font-weight: 700;
+  font-size: clamp(2.75rem, 6vw, 5.3125rem);
+  line-height: 1.18;
+  text-transform: uppercase;
+}
+
+/* H2 – 75 Oso Sans, Cond Bold */
+h2 {
+  font-family: var(--font-sans-condensed);
+  font-weight: 700;
+  font-size: clamp(2.5rem, 5vw, 4.6875rem);
+  line-height: 1.05;
+  text-transform: uppercase;
+}
+
+/* H3 – 26 Oso Serif, Light italic */
+h3 {
+  font-family: var(--font-serif);
+  font-weight: 300;
+  font-style: italic;
+  font-size: 1.625rem;
+}
+
+/* H4 – 26 Oso Sans, Bold */
+h4 {
+  font-family: var(--font-sans);
+  font-weight: 700;
+  font-size: 1.625rem;
+}
+
+/* H5 – 17 Oso Serif, Italic */
+h5 {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-style: italic;
+  font-size: 1.0625rem;
+}
+
+/* H6 – 20 Oso Sans, Semibold */
+h6 {
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: 1.25rem;
+}
+
+/* Captions – Oso Sans, Semibold, versaler */
+.c1,
+.c2,
+.c3 {
+  font-family: var(--font-sans);
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.c1 {
+  font-size: 1.25rem;
+} /* 20 */
+.c2 {
+  font-size: 1.125rem;
+} /* 18 */
+.c3 {
+  font-size: 0.9375rem;
+} /* 15 */
+
+/* Brødtekst */
+.b1 {
+  font-size: 1.25rem;
+  font-weight: 400;
+} /* 20 Regular */
+.b2 {
+  font-size: 1rem;
+  font-weight: 600;
+} /* 16 Semibold */
+.b3 {
+  font-size: 0.875rem;
+  font-weight: 400;
+} /* 14 Regular */
+.b4 {
+  font-size: 1.125rem;
+  font-weight: 600;
+} /* 18 Semibold */
+
+/* ===== HJÆLPEKLASSE ===== */
+.container {
+  width: 100%;
+  max-width: var(--max-width);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+/* ===== SEKTIONS-BAGGRUNDE ===== */
+.gradient-wine,
+.gradient-off-white,
+.gradient-wine-pink,
+.gradient-white-pink,
+.gradient-bordeaux-wine,
+.gradient-pink-white,
+.gradient-pink-wine {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  padding: 2rem;
+}
+
+/* Sørger for, at indholdet altid ligger oven på vandmærket */
+.gradient-wine > *,
+.gradient-off-white > *,
+.gradient-wine-pink > *,
+.gradient-white-pink > *,
+.gradient-bordeaux-wine > *,
+.gradient-pink-white > *,
+.gradient-pink-wine > * {
+  position: relative;
+  z-index: 1;
+}
+
+.gradient-wine {
+  background-color: var(--color-wine);
+  background-image: linear-gradient(180deg, rgba(108, 16, 64, 0) 72%, rgba(253, 249, 237, 0.8) 100%);
+}
+
+.gradient-off-white {
+  background-color: var(--color-offwhite-50);
+  background-image: linear-gradient(0deg, rgba(108, 16, 64, 0.8) 0%, rgba(108, 16, 64, 0) 40%);
+}
+
+.gradient-wine-pink {
+  background-color: var(--color-wine);
+  background-image: linear-gradient(180deg, rgba(108, 16, 64, 0) 60%, var(--color-pink) 100%);
+}
+
+.gradient-white-pink {
+  background-color: var(--color-offwhite-50);
+  background-image: linear-gradient(180deg, var(--color-pink) 26%, var(--color-offwhite-50) 100%);
+}
+
+.gradient-bordeaux-wine {
+  background-color: var(--color-wine);
+  background-image: linear-gradient(180deg, rgba(108, 16, 64, 0) 60%, var(--color-bordeaux) 100%);
+}
+
+.gradient-pink-white {
+  background-color: var(--color-offwhite-50);
+  background-image: linear-gradient(180deg, rgba(253, 249, 237, 0) 72%, var(--color-pink) 100%);
+}
+
+.gradient-pink-wine {
+  background-color: var(--color-pink);
+  background-image: linear-gradient(180deg, rgba(108, 16, 64, 0) 72%, var(--color-wine) 100%);
+}

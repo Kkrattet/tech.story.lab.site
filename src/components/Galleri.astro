@@ -1,0 +1,180 @@
+---
+import { Image } from "astro:assets";
+
+interface Projekt {
+  title: string;
+  text: string;
+  image?: ImageMetadata | string;
+  href?: string;
+}
+
+interface Props {
+  projekter: Projekt[];
+  buttonText?: string;
+  buttonHref?: string;
+}
+
+const { projekter, buttonText, buttonHref = "#" } = Astro.props;
+
+// Der er plads til 8 projekter i gitteret
+const viste = projekter.slice(0, 8);
+---
+
+<div class="bento-grid">
+  {viste.map((projekt) => (
+    <a class="bento-card" href={projekt.href ?? "#"}>
+      {projekt.image && (typeof projekt.image === "string" ? (
+        <img class="bento-card__image" src={projekt.image} alt="" loading="lazy" />
+      ) : (
+        <Image class="bento-card__image" src={projekt.image} alt="" loading="lazy" />
+      ))}
+      <div class="bento-card__text">
+        <h3 class="bento-card__title">{projekt.title}</h3>
+        <p class="bento-card__desc">{projekt.text}</p>
+      </div>
+    </a>
+  ))}
+
+  {buttonText && (
+    <a class="bento-button" href={buttonHref}>{buttonText} →</a>
+  )}
+</div>
+
+<style>
+  /* Gitteret præcis som i Figma (1360 × 660px) */
+  .bento-grid {
+    display: grid;
+    grid-template-columns: 270fr 150fr 100fr 420fr 340fr;
+    grid-template-rows: 230px 30px 170px 80px 70px;
+    grid-template-areas:
+      "p1 p1 p1 p4 p7"
+      "p1 p1 p1 p4 p8"
+      "p2 p3 p3 p4 p8"
+      "p5 p5 p6 p6 p8"
+      "p5 p5 p6 p6 knap";
+    gap: 20px;
+  }
+
+  /* Hvert projekt får sin plads efter rækkefølgen i listen */
+  .bento-card:nth-child(1) { grid-area: p1; }
+  .bento-card:nth-child(2) { grid-area: p2; }
+  .bento-card:nth-child(3) { grid-area: p3; }
+  .bento-card:nth-child(4) { grid-area: p4; }
+  .bento-card:nth-child(5) { grid-area: p5; }
+  .bento-card:nth-child(6) { grid-area: p6; }
+  .bento-card:nth-child(7) { grid-area: p7; }
+  .bento-card:nth-child(8) { grid-area: p8; }
+
+  .bento-button {
+    grid-area: knap;
+  }
+
+  /* Det enkelte kort */
+  .bento-card {
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    overflow: hidden;
+    padding: 24px;
+    border-radius: 28px;
+    background: var(--color-bordeaux-900);
+    color: var(--color-offwhite-50);
+    text-decoration: none;
+  }
+
+  .bento-card__image {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+  }
+
+  .bento-card:hover .bento-card__image {
+    transform: scale(1.05);
+  }
+
+  /* Mørk overgang i bunden, så teksten kan læses */
+  .bento-card::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, rgba(58, 0, 8, 0) 35%, rgba(58, 0, 8, 0.85) 66%);
+  }
+
+  .bento-card__text {
+    position: relative;
+    z-index: 1;
+  }
+
+  /* H4 – 26 Oso Sans, Bold */
+  .bento-card__title {
+    margin: 0;
+    font-family: var(--font-sans);
+    font-size: 1.625rem;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 1.2;
+  }
+
+  /* H5 – 17 Oso Serif, Italic */
+  .bento-card__desc {
+    margin: 4px 0 0;
+    color: var(--color-pink);
+    font-family: var(--font-serif);
+    font-size: 1.0625rem;
+    font-style: italic;
+    line-height: 1.2;
+  }
+
+  /* Den gule knap */
+  .bento-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 28px;
+    background: var(--color-yellow);
+    color: var(--color-black);
+    font-size: 1.125rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: transform 0.15s ease;
+  }
+
+  .bento-button:hover {
+    transform: translateY(-2px);
+  }
+
+  /* Tablet: to kolonner */
+  @media (max-width: 1100px) {
+    .bento-grid {
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: none;
+      grid-template-areas: none;
+      grid-auto-rows: 220px;
+    }
+
+    .bento-card:nth-child(n),
+    .bento-button {
+      grid-area: auto;
+    }
+
+    .bento-button {
+      grid-column: span 2;
+      height: 70px;
+    }
+  }
+
+  /* Mobil: én kolonne */
+  @media (max-width: 600px) {
+    .bento-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .bento-button {
+      grid-column: auto;
+    }
+  }
+</style>
