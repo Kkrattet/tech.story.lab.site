@@ -1,14 +1,209 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Hero from "../components/Hero.astro";
+
+
+import Button from "../components/Button.astro"
+
+import Card from "../components/Card.astro"
+
+import CardKarrusel from "../components/CardKarrusel.astro"
+
+import Section from "../components/Section.astro";
+
+
+
+const udstyrspakkerKort = [
+  {
+    title: "Interviewpakke",
+    text: "Book et studie til podcast, foto og video.",
+    href: "#",
+    linkLabel: "Lån pakken",
+    // image: kortStudio,
+  },
+  {
+    title: "Podcastpakke",
+    text: "2 mikrofoner og optager",
+    href: "#",
+        linkLabel: "Lån pakken",
+    // image: kortUdstyr,
+  },
+  {
+    title: "SoMe-pakke",
+    text: "Gimbal, lys og mikrofon",
+    href: "#",
+        linkLabel: "Lån pakken",
+    // image: kortBook,
+  },
+  {
+    title: "Livestream-pakke",
+    text: "Kamera, mixer og lyd",
+    href: "#",
+        linkLabel: "Lån pakken",
+    // image: kortNy,
+  },
+];
+
+// const udstyrKort = [
+//   {
+//     title: "Canon-objektiv",
+//     text: "Skarpe portrætter og interviews.",
+//     href: "#",
+//     linkLabel: "SE LEDIGHED",
+//     // image: kortStudio,
+//   },
+//   {
+//     title: "Sony Alpha",
+//     text: "Foto og video i høj kvalitet",
+//     href: "#",
+//         linkLabel: "SE LEDIGHED",
+//     // image: kortUdstyr,
+//   },
+//   {
+//     title: "GoPro",
+//     text: "Action og POV-optagelser.",
+//     href: "#",
+//         linkLabel: "SE LEDIGHED",
+//     // image: kortBook,
+//   },
+// ];
 ---
 
 <BaseLayout title="Udstyr">
   <Hero
-    eyebrow="Tech & Story Lab"
+ eyebrow="Tech & Story Lab"
     title="Udstyr"
     subtitle="Lån det. Lær det. Lav noget med det."
     text="Gratis for studerende."
-    buttons={[{ label: "Find udstyr", href: "#udstyr" }]}
+    buttons={[{ label: "Find udstyr", href: "#udstyr" }]}  
   />
+
+ 
+
+
+   <CardKarrusel
+    title="UDSTYRSPAKKE"
+    subtitle="Alt det, du skal bruge, samlet i én pakke."
+    kort={udstyrspakkerKort}
+  />
+
+
+
+  <Section
+    title="FOTO & VIDEO"
+  subtitle="Kameraer og objektiver til foto, video og SoMe."
+  baggrund="gradient-off-white"
+  tekstfarve="mork"
+  kolonner={3}
+  buttonText="Se alt udstyr"
+  buttonHref="#"
+  >
+
+  <Card
+  title="Canon-objektiv"
+  text="Skarpe portrætter og interviews"
+  href="#"
+  farve="wine"
+  status="Optaget"
+  linkLabel="Se ledighed"
+/>
+
+<Card
+  title="Sony Alpha"
+  text="Foto og video i høj kvalitet"
+  href="#"
+  farve="wine"
+  status="Ledig nu"
+  linkLabel="Se ledighed"
+/>
+
+<Card
+  title="GoPro"
+  text="Action og POV-optagelser"
+  href="#"
+  farve="wine"
+  status="Ledig nu"
+  linkLabel="Se ledighed"
+/>
+  </Section>
+
+   <Section
+    title="LYS & STABILISERING"
+  subtitle="Lys, stativer og gimbals til rolige og flotte optagelser."
+  baggrund="gradient-wine-pink"
+  tekstfarve="lys"
+  kolonner={3}
+  buttonText="Se alt udstyr"
+  buttonHref="#"
+  >
+
+  <Card
+  title="LED-panel"
+  text="Blødt lys til video og foto"
+  href="#"
+  farve="pink"
+  status="Ledig nu"
+  linkLabel="Se ledighed"
+/>
+
+<Card
+  title="Stativ"
+  text="Faste og rolige billeder"
+  href="#"
+  farve="pink"
+  status="Ledig nu"
+  linkLabel="Se ledighed"
+/>
+
+<Card
+  title="DJI Ronin"
+  text="Glidende kamerabevægelser"
+  href="#"
+  farve="pink"
+  status="Optaget"
+  linkLabel="Se ledighed"
+/>
+  </Section>
+  
+  <Section
+    title="VR, AR & 360"
+  subtitle="Ingen forkundskaber. Kun nysgerrighed."
+  baggrund="gradient-pink-wine"
+  tekstfarve="lys"
+  kolonner={3}
+  buttonText="Se alt udstyr"
+  buttonHref="#"
+  >
+
+  <Card
+  title="VR-headset"
+  text="Oplev og test fortællinger i VR"
+  href="#"
+  farve="wine"
+  status="Ledig nu"
+  linkLabel="Se ledighed"
+/>
+
+<Card
+  title="360-kamera"
+  text="Optag hele rummet på én gang"
+  href="#"
+  farve="wine"
+  status="Ledig nu"
+  linkLabel="Se ledighed"
+/>
+
+<Card
+  title="Drone"
+  text="Optagelser fra luften"
+  href="#"
+  farve="wine"
+  status="Optaget"
+  linkLabel="Se ledighed"
+/>
+  </Section>
+
+
+  
 </BaseLayout>
+
