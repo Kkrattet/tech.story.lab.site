@@ -6,11 +6,32 @@ import EventCard from "../components/EventCard.astro";
 import Kalender from "../components/Kalender.astro";
 import Galleri from "../components/Galleri.astro";
 
-const events = [
-  { dag: "12", maaned: "Nov", title: "Lær at bruge en gimbal", tid: "Kl. 14–16 · Tech & Story Lab" },
-  { dag: "19", maaned: "Nov", title: "Podcast fra idé til afsnit", tid: "Kl. 14–16 · Tech & Story Lab" },
-  { dag: "21", maaned: "Nov", title: "Fredagsbar i lobbyen", tid: "Kl. 14–16 · Tech & Story Lab" },
-];
+const apiurl = "https://pynptdpmxtmlymghsvwv.supabase.co/rest/v1/";
+const eventsTableName = "Events";
+const options = {
+  headers: {
+    apikey: "sb_publishable_ufVkQer6tuCPMGxARmZODw_d-_5JubH",
+  },
+};
+
+const idag = new Date().toISOString().slice(0, 10);
+const eventsResponse = await fetch(
+  apiurl + eventsTableName + `?Dato=gte.${idag}&order=Dato.asc&limit=3`,
+  options,
+);
+const eventsData = await eventsResponse.json();
+const maaneder = ["Jan", "Feb", "Mar", "Apr", "Maj", "Jun", "Jul", "Aug", "Sep", "Okt", "Nov", "Dec"];
+
+const events = eventsData.map((event) => {
+  const dato = new Date(event.Dato);
+
+  return {
+    dag: String(dato.getUTCDate()),
+    maaned: maaneder[dato.getUTCMonth()],
+    title: event.Navn,
+    tid: "Kl. " + event.Tid + " · Tech & Story Lab",
+  };
+});
 
 const projekter = [
   { title: "Karma", text: "En podcast om livets op- og nedture" },

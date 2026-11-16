@@ -31,7 +31,11 @@ const udstyrResponse = await fetch(apiurl + udstyrTableName, options);
 const udstyrData = await udstyrResponse.json();
 console.log("udstyrData", udstyrData);
 
-const eventsResponse = await fetch(apiurl + eventsTableName, options);
+const idag = new Date().toISOString().slice(0, 10);
+const eventsResponse = await fetch(
+  apiurl + eventsTableName + `?Dato=gte.${idag}&order=Dato.asc&limit=3`,
+  options,
+);
 const eventsData = await eventsResponse.json();
 console.log("eventsData", eventsData);
 
@@ -114,11 +118,18 @@ const projekter = [
   { title: "Et øjeblik i livet", text: "En kortfilm om de små, store øjeblikke" },
 ];
 
-const events = [
-  { dag: "12", maaned: "Nov", title: "Lær at bruge en gimbal", tid: "Kl. 14–16 · Tech & Story Lab" },
-  { dag: "19", maaned: "Nov", title: "Podcast fra idé til afsnit", tid: "Kl. 14–16 · Tech & Story Lab" },
-  { dag: "21", maaned: "Nov", title: "Fredagsbar i lobbyen", tid: "Kl. 14–16 · Tech & Story Lab" },
-];
+const maaneder = ["Jan", "Feb", "Mar", "Apr", "Maj", "Jun", "Jul", "Aug", "Sep", "Okt", "Nov", "Dec"];
+
+const events = eventsData.map((event) => {
+  const dato = new Date(event.Dato);
+
+  return {
+    dag: String(dato.getUTCDate()),
+    maaned: maaneder[dato.getUTCMonth()],
+    title: event.Navn,
+    tid: "Kl. " + event.Tid + " · Tech & Story Lab",
+  };
+});
 ---
 
 <BaseLayout title="Forside">
