@@ -1,6 +1,27 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Hero from "../components/Hero.astro";
+import Section from "../components/Section.astro";
+import EventCard from "../components/EventCard.astro";
+import Kalender from "../components/Kalender.astro";
+import Galleri from "../components/Galleri.astro";
+
+const events = [
+  { dag: "12", maaned: "Nov", title: "Lær at bruge en gimbal", tid: "Kl. 14–16 · Tech & Story Lab" },
+  { dag: "19", maaned: "Nov", title: "Podcast fra idé til afsnit", tid: "Kl. 14–16 · Tech & Story Lab" },
+  { dag: "21", maaned: "Nov", title: "Fredagsbar i lobbyen", tid: "Kl. 14–16 · Tech & Story Lab" },
+];
+
+const projekter = [
+  { title: "Karma", text: "En podcast om livets op- og nedture" },
+  { title: "Hvor kigger vi?", text: "Et eksperiment med øjne og opmærksomhed" },
+  { title: "Uden grænser", text: "En virtuel oplevelse skabt af studerende" },
+  { title: "Portrætter med personlighed", text: "Et fotoprojekt om identitet og udtryk" },
+  { title: "Bag kulisserne", text: "Fra den første idé til den færdige film" },
+  { title: "Skabt sammen", text: "Et kreativt projekt fra idé til virkelighed" },
+  { title: "Mellem linjerne", text: "En podcast om det, vi sjældent taler om" },
+  { title: "Et øjeblik i livet", text: "En kortfilm om de små, store øjeblikke" },
+];
 ---
 
 <BaseLayout title="Events og workshops">
@@ -11,4 +32,41 @@ import Hero from "../components/Hero.astro";
     text="Workshops for nysgerrige, ikke eksperter."
     buttons={[{ label: "Find din workshop", href: "#kalender" }]}
   />
+
+  <div id="events-page-events">
+    <Section
+      title="Events & workshops"
+      subtitle="Workshops for nysgerrige, ikke eksperter."
+      buttonText="Se alle events"
+      buttonHref="/events"
+      baggrund="gradient-wine-pink"
+      tekstfarve="pink"
+    >
+      {events.map((event) => (
+        <EventCard {...event} href="/events" farve="pink" />
+      ))}
+    </Section>
+  </div>
+
+  <Kalender />
+
+  <Section
+    title="Bliv inspireret"
+    subtitle="Se, hvad andre studerende har skabt i labbet."
+    baggrund="gradient-off-white"
+    tekstfarve="mork"
+    kolonner={1}
+  >
+    <Galleri
+      projekter={projekter}
+      buttonText="Døren til inspiration"
+      buttonHref="/inspiration"
+    />
+  </Section>
 </BaseLayout>
+
+<style>
+  :global(#events-page-events .section--pink .section__subtitle) {
+    color: var(--color-offwhite-50);
+  }
+</style>

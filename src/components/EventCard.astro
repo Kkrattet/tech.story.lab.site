@@ -1,4 +1,6 @@
 ---
+import Button from "./Button.astro";
+
 interface Props {
   dag: string;
   maaned: string;
@@ -27,7 +29,9 @@ const {
   <div class="event__body">
     <h3 class="event__title">{title}</h3>
     <p class="event__time">{tid}</p>
-    <a class="event__link" href={href}>Tilmeld →</a>
+    <div class="event__action">
+      <Button href={href}>Tilmeld</Button>
+    </div>
   </div>
 </article>
 
@@ -102,26 +106,8 @@ const {
     line-height: 1.2;
   }
 
-  /* Gul Tilmeld-knap */
-  .event__link {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 170px;
-    height: 48px;
+  .event__action {
     margin-top: auto;
-    border-radius: 24px;
-    background: var(--color-yellow);
-    color: var(--color-black);
-    font-size: 1.125rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    text-decoration: none;
-    transition: transform 0.15s ease;
-  }
-
-  .event__link:hover {
-    transform: translateY(-2px);
   }
 
   @media (max-width: 600px) {
@@ -143,7 +129,7 @@ const {
       font-size: 1.375rem;
     }
 
-    .event__link {
+    .event__action {
       margin-top: 20px;
     }
   }
