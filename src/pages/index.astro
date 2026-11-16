@@ -9,6 +9,41 @@ import NyILabbet from "../components/NyILabbet.astro";
 import Galleri from "../components/Galleri.astro";
 // import billedeTeamet from "../assets/teamet.png";
 import logo from "../assets/logo.png";
+import { dev } from "astro";
+
+// Supabase
+const apiurl = "https://pynptdpmxtmlymghsvwv.supabase.co/rest/v1/";
+
+const udstyrTableName = "Udstyr";
+const eventsTableName = "Events";
+const teametTableName = "Teamet";
+const workshopsTableName = "Workshops";
+
+const key = "sb_publishable_ufVkQer6tuCPMGxARmZODw_d-_5JubH";
+
+const options = {
+  headers: {
+    apikey: key,
+  },
+};
+
+const udstyrResponse = await fetch(apiurl + udstyrTableName, options);
+const udstyrData = await udstyrResponse.json();
+console.log("udstyrData", udstyrData);
+
+const eventsResponse = await fetch(apiurl + eventsTableName, options);
+const eventsData = await eventsResponse.json();
+console.log("eventsData", eventsData);
+
+const teametResponse = await fetch(apiurl + teametTableName, options);
+const teametData = await teametResponse.json();
+console.log("teametData", teametData);
+
+const workshopsResponse = await fetch(apiurl + workshopsTableName, options);
+const workshopsData = await workshopsResponse.json();
+console.log("workshopsData", workshopsData);
+
+
 
 // Billeder til "Find vej i labbet"
 // Fjern // foran linjerne, når billederne ligger i src/assets
