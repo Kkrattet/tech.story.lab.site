@@ -1,14 +1,405 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Hero from "../components/Hero.astro";
+import Section from "../components/Section.astro";
+import TeamCard from "../components/TeamCard.astro";
+import Button from "../components/Button.astro";
+
+// Billeder
+import teamet from "../assets/team2.webp";
+import frederick from "../assets/frederick.webp";
+import luke from "../assets/luke.webp";
+import mikki from "../assets/mikki.webp";
+import kristoffer from "../assets/kristoffer.webp";
+import findOs from "../assets/studio7.webp";
+import hvemErVi from "../assets/studio6.webp";
+
+// Type til teammedlemmer
+type TeamMember = {
+  navn: string;
+  rolle: string;
+  href: string;
+  farve: "pink" | "wine";
+  image?: ImageMetadata;
+};
+
+// Teammedlemmer
+const team: TeamMember[] = [
+  {
+    navn: "Frederick Rossling",
+    rolle: "LAB-MANAGER",
+    href: "#",
+    farve: "pink",
+    image: frederick,
+  },
+  {
+    navn: "Luke Frost",
+    rolle: "LAB-MANAGER",
+    href: "#",
+    farve: "pink",
+    image: luke,
+  },
+  {
+    navn: "Mikki Simonsen",
+    rolle: "LAB-MANAGER",
+    href: "#",
+    farve: "pink",
+    image: mikki,
+  },
+  {
+    navn: "Kristoffer Hyum Nielsen",
+    rolle: "LAB-ASSISTENT",
+    href: "#",
+    farve: "pink",
+    image: kristoffer,
+  },
+];
 ---
 
 <BaseLayout title="Om os">
+
+  <!-- HERO -->
   <Hero
     eyebrow="Om os"
     title="Mød nørderne bag labbet"
     subtitle="Spørg os om alt. Vi elsker det."
     text="Vi er fire nørder med hver vores speciale – fra lyd og podcast til VR og programmering. Kig forbi i A025, så hjælper vi dig i gang med dit projekt."
-    buttons={[{ label: "Spørg os", href: "#find-os" }]}
+    image={teamet}
+    imageAlt="Teamet bag Tech & Story Lab"
+    buttons={[
+      { label: "Spørg os", href: "#find-os" },
+    ]}
   />
+
+
+  <!-- MØD TEAMET -->
+  <Section
+    title="Mød teamet"
+    subtitle="Her er vi. Dit speciale, vores hjælp."
+    baggrund="gradient-wine"
+    tekstfarve="lys"
+    kolonner={1}
+  >
+
+    <div class="team-grid">
+
+      {team.map((person) => (
+        <div class="team-item">
+          <TeamCard {...person} />
+        </div>
+      ))}
+
+    </div>
+
+  </Section>
+
+
+  <!-- FIND OS -->
+  <Section
+    title="Find os"
+    subtitle="Vi sidder bag receptionen i Guldbergsgade."
+    baggrund="gradient-white-pink"
+    tekstfarve="mork"
+    kolonner={1}
+  >
+
+    <div class="find-content" id="find-os">
+
+      <!-- Billede -->
+      <div class="find-image">
+        <img
+          src={findOs.src}
+          alt="Tech & Story Lab i Guldbergsgade"
+          loading="lazy"
+        />
+      </div>
+
+      <!-- Information -->
+      <div class="find-info">
+
+        <div class="info-group">
+          <h3>Adresse</h3>
+          <p>
+            EK Guldbergsgade<br />
+            Bygning A, lokale A025
+          </p>
+        </div>
+
+        <div class="info-group">
+          <h3>Åbningstider</h3>
+          <p>
+            Man–tors: 9.00–16.00<br />
+            Fre: 9.00–15.00
+          </p>
+        </div>
+
+        <div class="info-group">
+          <h3>Kontakt</h3>
+          <p>
+            46 46 42 42<br />
+            techandstorylab@ek.dk
+          </p>
+        </div>
+
+        <Button href="mailto:techandstorylab@ek.dk">
+          Kontakt os
+        </Button>
+
+      </div>
+
+    </div>
+
+  </Section>
+
+
+  <!-- HVEM ER VI -->
+  <Section
+    title="Hvem er vi"
+    subtitle="Et sted for alle – uanset erfaring."
+    baggrund="gradient-wine"
+    tekstfarve="lys"
+    kolonner={1}
+  >
+
+    <div class="about-content">
+
+      <div class="about-text">
+
+        <p>
+          Tech & Story Lab er EK's åbne lab for teknologi
+          og storytelling.
+        </p>
+
+        <p>
+          Her kan du udforske, eksperimentere og arbejde
+          med lyd, video, VR og meget mere.
+        </p>
+
+        <p>
+          Vi hjælper dig fra den første idé til det
+          færdige projekt. Du behøver ikke være ekspert –
+          du skal bare være nysgerrig.
+        </p>
+
+        <Button href="/ny-i-labbet">
+          Jeg er ny
+        </Button>
+
+      </div>
+
+      <!-- Billede -->
+      <div class="about-image">
+        <img
+          src={hvemErVi.src}
+          alt="Aktiviteter i Tech & Story Lab"
+          loading="lazy"
+        />
+      </div>
+
+    </div>
+
+  </Section>
+
 </BaseLayout>
+
+
+<style>
+
+/* =====================================
+   TEAM
+===================================== */
+
+.team-grid {
+  display: flex;
+  gap: 16px;
+  overflow-x: auto;
+  padding-bottom: 12px;
+
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+
+  scrollbar-width: none;
+}
+
+.team-grid::-webkit-scrollbar {
+  display: none;
+}
+
+.team-item {
+  flex: 0 0 70%;
+  min-width: 0;
+  scroll-snap-align: start;
+}
+
+/* TeamCard */
+.team-item :global(.team) {
+  height: 340px;
+  padding: 18px;
+  border-radius: 20px;
+}
+
+.team-item :global(.team__name) {
+  font-size: 1.25rem;
+}
+
+.team-item :global(.team__photo) {
+  top: auto;
+  left: auto;
+  right: 0;
+  bottom: 0;
+  width: 85%;
+  height: 72%;
+  object-fit: cover;
+  object-position: center top;
+}
+
+
+/* =====================================
+   FIND OS
+===================================== */
+
+.find-content {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+}
+
+.find-image {
+  min-height: 230px;
+  overflow: hidden;
+  border-radius: 20px;
+}
+
+.find-image img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  min-height: 230px;
+  object-fit: cover;
+}
+
+.find-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 22px;
+
+  padding: 26px;
+  border-radius: 20px;
+
+  background: var(--color-wine);
+  color: var(--color-offwhite-50);
+}
+
+.info-group h3 {
+  margin: 0 0 8px;
+  font-size: 0.95rem;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.info-group p {
+  margin: 0;
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
+
+/* =====================================
+   HVEM ER VI
+===================================== */
+
+.about-content {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+}
+
+.about-text p {
+  margin: 0 0 18px;
+  font-size: 0.95rem;
+  line-height: 1.7;
+}
+
+.about-image {
+  min-height: 230px;
+  overflow: hidden;
+  border-radius: 20px;
+}
+
+.about-image img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  min-height: 230px;
+  object-fit: cover;
+}
+
+
+/* =====================================
+   DESKTOP
+===================================== */
+
+@media (min-width: 901px) {
+
+  /* TEAM */
+  .team-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 20px;
+
+    overflow: visible;
+    padding-bottom: 0;
+    scroll-snap-type: none;
+  }
+
+  .team-item {
+    min-width: 0;
+  }
+
+  .team-item :global(.team) {
+    height: 300px;
+    padding: 20px;
+  }
+
+  .team-item :global(.team__name) {
+    font-size: clamp(1rem, 1.4vw, 1.5rem);
+  }
+
+
+  /* FIND OS */
+  .find-content {
+    grid-template-columns: 1.5fr 1fr;
+    gap: 28px;
+    align-items: stretch;
+  }
+
+  .find-image img {
+    min-height: 350px;
+  }
+
+  .find-info {
+    padding: 32px;
+  }
+
+
+  /* HVEM ER VI */
+  .about-content {
+    grid-template-columns: 1fr 1fr;
+    gap: 50px;
+    align-items: center;
+  }
+
+  .about-text {
+    max-width: 500px;
+  }
+
+  .about-image,
+  .about-image img {
+    min-height: 350px;
+  }
+
+}
+
+</style>
