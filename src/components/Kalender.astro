@@ -42,6 +42,14 @@ const defaultWorkshop = {
 </section>
 
 <script>
+  interface Workshop {
+    id: string;
+    name: string;
+    date: string;
+    description: string;
+    image: string;
+  }
+
   // Samme Supabase som i index.astro
   const apiurl =
     "https://pynptdpmxtmlymghsvwv.supabase.co/rest/v1/";
@@ -51,32 +59,35 @@ const defaultWorkshop = {
 
   async function initKalender() {
 
-    const calendar = document.querySelector(
+    const calendar = document.querySelector<HTMLObjectElement>(
       "#workshopCalendar"
     );
 
-    const title = document.querySelector(
+    if (!calendar) return;
+    const calendarObject = calendar;
+
+    const title = document.querySelector<HTMLElement>(
       "[data-workshop-title]"
     );
 
-    const date = document.querySelector(
+    const date = document.querySelector<HTMLElement>(
       "[data-workshop-date]"
     );
 
-    const description = document.querySelector(
+    const description = document.querySelector<HTMLElement>(
       "[data-workshop-description]"
     );
 
-    const image = document.querySelector(
+    const image = document.querySelector<HTMLImageElement>(
       "[data-workshop-image]"
     );
 
-    const link = document.querySelector(
+    const link = document.querySelector<HTMLAnchorElement>(
       ".workshop-bottom .button"
     );
 
     // HENT WORKSHOPS FRA SUPABASE
-    let workshops = {};
+    const workshops: Record<string, Workshop> = {};
 
     try {
       const response = await fetch(
@@ -95,7 +106,7 @@ const defaultWorkshop = {
         );
       }
 
-      const data = await response.json();
+      const data = (await response.json()) as Workshop[];
 
       // Omdan Supabase-array til objekt
       data.forEach((workshop) => {
@@ -107,7 +118,7 @@ const defaultWorkshop = {
     }
 
     // OPDATER WORKSHOP CARD
-    function showWorkshop(id) {
+    function showWorkshop(id: string) {
       const workshop = workshops[id];
 
       if (!workshop) return;
@@ -137,16 +148,12 @@ const defaultWorkshop = {
     }
 
     // FORBIND SVG MED WORKSHOP CARD
-    if (!(calendar instanceof HTMLObjectElement)) {
-      return;
-    }
-
     function setupCalendar() {
-      const svgDoc = calendar.contentDocument;
+      const svgDoc = calendarObject.contentDocument;
 
       if (!svgDoc) return;
 
-      const dots = svgDoc.querySelectorAll(".dot");
+      const dots = svgDoc.querySelectorAll<SVGGElement>(".dot");
 
       dots.forEach((dot) => {
         const id = dot.getAttribute("data-id");
@@ -163,6 +170,8 @@ const defaultWorkshop = {
 
         // Tastaturnavigation
         dot.addEventListener("keydown", (event) => {
+          if (!(event instanceof KeyboardEvent)) return;
+
           if (
             event.key === "Enter" ||
             event.key === " "
@@ -174,9 +183,9 @@ const defaultWorkshop = {
       });
     }
 
-    calendar.addEventListener("load", setupCalendar);
+    calendarObject.addEventListener("load", setupCalendar);
 
-    if (calendar.contentDocument?.documentElement) {
+    if (calendarObject.contentDocument?.documentElement) {
       setupCalendar();
     }
 
