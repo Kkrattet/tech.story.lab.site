@@ -83,8 +83,8 @@ const defaultWorkshop = {
     );
 
     const link = document.querySelector<HTMLAnchorElement>(
-      ".workshop-bottom .button"
-    );
+  "[data-workshop-button] a"
+);
 
     // HENT WORKSHOPS FRA SUPABASE
     const workshops: Record<string, Workshop> = {};
@@ -142,8 +142,7 @@ const defaultWorkshop = {
       }
 
       if (link instanceof HTMLAnchorElement) {
-        link.href =
-          `/Workshops/${encodeURIComponent(id)}`;
+        link.href = `/Workshops/${encodeURIComponent(id)}`;
       }
     }
 
@@ -193,7 +192,9 @@ const defaultWorkshop = {
     showWorkshop("marts-27");
   }
 
-  initKalender();
+  document.addEventListener("astro:page-load", () => {
+    initKalender();
+  });
 </script>
 
 <style>

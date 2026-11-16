@@ -1,0 +1,222 @@
+
+---
+interface Props {
+  workshopDate: string;
+  workshopName: string;
+}
+
+const { workshopDate, workshopName } = Astro.props;
+---
+
+<section class="booking" aria-labelledby="booking-title">
+  <div class="booking-container">
+
+    <div class="booking-form-wrapper">
+      <h2 id="booking-title">Book din plads</h2>
+
+      <p class="booking-workshop">
+        {workshopName} · {workshopDate}
+      </p>
+
+      <form id="bookingForm">
+
+        <div class="form-field">
+          <label for="booking-name">Navn</label>
+          <input
+            type="text"
+            id="booking-name"
+            name="name"
+            placeholder="Dit fulde navn"
+            autocomplete="name"
+            required
+          />
+        </div>
+
+        <div class="form-field">
+          <label for="booking-phone">Telefonnummer</label>
+          <input
+            type="tel"
+            id="booking-phone"
+            name="phone"
+            placeholder="Dit telefonnummer"
+            autocomplete="tel"
+            required
+          />
+        </div>
+
+        <div class="form-field">
+          <label for="booking-email">E-mail</label>
+          <input
+            type="email"
+            id="booking-email"
+            name="email"
+            placeholder="din@email.dk"
+            autocomplete="email"
+            required
+          />
+        </div>
+
+        <button type="submit" class="booking-button">
+          BOOK PLADS →
+        </button>
+
+      </form>
+
+      <!-- Bekræftelse -->
+      <div
+        id="bookingConfirmation"
+        class="booking-confirmation"
+        role="status"
+        aria-live="polite"
+        hidden
+      >
+        <h3>Tak for din tilmelding!</h3>
+
+        <p>
+          Du har booket en plads til workshoppen den
+          <strong>{workshopDate}</strong>
+          – Vi glæder os til at se dig!
+        </p>
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+<script>
+  function initBookingForm() {
+    const form = document.querySelector<HTMLFormElement>(
+      "#bookingForm"
+    );
+
+    const confirmation = document.querySelector<HTMLElement>(
+      "#bookingConfirmation"
+    );
+
+    if (!form || !confirmation) return;
+
+    // Undgå at tilføje event listener flere gange
+    if (form.dataset.initialized === "true") return;
+
+    form.dataset.initialized = "true";
+
+    form.addEventListener("submit", (event) => {
+      event.preventDefault();
+
+      // Kontroller HTML5-validering
+      if (!form.checkValidity()) {
+        form.reportValidity();
+        return;
+      }
+
+      // Ingen data sendes eller gemmes
+      form.hidden = true;
+
+      // Vis bekræftelsen
+      confirmation.hidden = false;
+    });
+  }
+
+  document.addEventListener("astro:page-load", initBookingForm);
+</script>
+
+<style>
+  .booking {
+    padding: 80px 5%;
+    background: var(--color-wine);
+    color: var(--color-offwhite-50);
+  }
+
+  .booking-container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .booking-form-wrapper {
+    max-width: 550px;
+    margin: 0 auto;
+  }
+
+  .booking h2 {
+    font-size: clamp(2rem, 4vw, 3.5rem);
+    margin-bottom: 16px;
+  }
+
+  .booking-workshop {
+    margin-bottom: 40px;
+  }
+
+  #bookingForm {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .form-field {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .form-field label {
+    font-weight: 700;
+  }
+
+  .form-field input {
+    width: 100%;
+    padding: 16px;
+    border: 2px solid transparent;
+    border-radius: 12px;
+    background: #fff9ed;
+    color: #1f1f1f;
+    font: inherit;
+  }
+
+  .form-field input:focus {
+    outline: none;
+    border-color: var(--color-yellow);
+  }
+
+  .booking-button {
+    align-self: flex-start;
+    background: var(--color-yellow);
+    color: #000;
+    border: none;
+    border-radius: 40px;
+    padding: 16px 30px;
+    font: inherit;
+    font-weight: 900;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+  }
+
+  .booking-button:hover {
+    transform: scale(1.05);
+  }
+
+  .booking-confirmation {
+    padding: 35px;
+    border: 2px solid var(--color-yellow);
+    border-radius: 20px;
+  }
+
+  .booking-confirmation[hidden],
+  #bookingForm[hidden] {
+    display: none;
+  }
+
+  .booking-confirmation h3 {
+    margin-bottom: 20px;
+  }
+
+  .booking-confirmation p {
+    line-height: 1.6;
+  }
+
+  @media (max-width: 768px) {
+    .booking {
+      padding: 50px 20px;
+    }
+  }
+</style>

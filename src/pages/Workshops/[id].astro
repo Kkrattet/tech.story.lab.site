@@ -1,0 +1,188 @@
+
+---
+import BookingForm from "../../components/BookingForm.astro";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+
+interface Workshop {
+  id: string;
+  name: string;
+  date: string;
+  description: string;
+  image: string;
+}
+
+const apiurl =
+  "https://pynptdpmxtmlymghsvwv.supabase.co/rest/v1/";
+
+const key =
+  "sb_publishable_ufVkQer6tuCPMGxARmZODw_d-_5JubH";
+
+// Opret en side for hver workshop
+export async function getStaticPaths() {
+  const response = await fetch(
+    "https://pynptdpmxtmlymghsvwv.supabase.co/rest/v1/Workshops?select=id",
+    {
+      headers: {
+        apikey: "sb_publishable_ufVkQer6tuCPMGxARmZODw_d-_5JubH"
+      }
+    }
+  );
+
+  if (!response.ok) {
+    throw new Error("Kunne ikke hente workshop-ID'er");
+  }
+
+  const workshops = await response.json();
+
+  return workshops.map((workshop: { id: string }) => ({
+    params: { id: workshop.id }
+  }));
+}
+
+// Find workshop-ID fra URL
+const { id } = Astro.params;
+
+// Hent workshop fra Supabase
+const response = await fetch(
+  apiurl +
+    `Workshops?id=eq.${encodeURIComponent(id ?? "")}` +
+    "&select=id,name,date,description,image",
+  {
+    headers: {
+      apikey: key
+    }
+  }
+);
+
+if (!response.ok) {
+  throw new Error("Kunne ikke hente workshop");
+}
+
+const data = (await response.json()) as Workshop[];
+
+const workshop = data[0];
+
+if (!workshop) {
+  return Astro.redirect("/events");
+}
+---
+
+<BaseLayout title={workshop.name}>
+
+  <main>
+    <section class="workshop-detail">
+
+      <div class="detail-container">
+
+      <a href="/events#kalender" class="back-link">
+        ← Tilbage til kalenderen
+      </a>
+
+      <div class="detail-grid">
+
+        <div class="detail-content">
+          <p class="workshop-date">
+            {workshop.date}
+          </p>
+
+          <h1>{workshop.name}</h1>
+
+          <p class="description">
+            {workshop.description}
+          </p>
+
+          <a href="/events#kalender" class="back-link">
+            Se andre workshops →
+          </a>
+        </div>
+
+        <div class="detail-image">
+          <img
+            src={workshop.image}
+            alt={workshop.name}
+          />
+        </div>
+
+      </div>
+
+      </div>
+    </section>
+
+    <BookingForm
+      workshopName={workshop.name}
+      workshopDate={workshop.date}
+    />
+  </main>
+
+</BaseLayout>
+
+<style>
+  .workshop-detail {
+    background: var(--color-wine);
+    color: var(--color-offwhite-50);
+    min-height: 80vh;
+    padding: 100px 5%;
+  }
+
+  .detail-container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .back-link {
+    display: inline-block;
+    color: var(--color-yellow);
+    margin-bottom: 60px;
+    text-decoration: none;
+  }
+
+  .detail-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+  }
+
+  .workshop-date {
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
+
+  h1 {
+    font-size: clamp(3rem, 6vw, 6rem);
+    line-height: 1;
+    margin-bottom: 30px;
+  }
+
+  .description {
+    font-size: 1.3rem;
+    line-height: 1.6;
+    margin-bottom: 30px;
+  }
+
+  .detail-image img {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+
+    clip-path: polygon(
+      65% 0%,
+      100% 12%,
+      100% 88%,
+      50% 100%,
+      0% 85%,
+      5% 25%
+    );
+  }
+
+  @media (max-width: 768px) {
+    .detail-grid {
+      grid-template-columns: 1fr;
+      gap: 40px;
+    }
+
+    .workshop-detail {
+      padding: 60px 20px;
+    }
+  }
+</style>

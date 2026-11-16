@@ -33,7 +33,11 @@ const { id, name, date, description, image } = Astro.props;
 			{description}
 		</p>
 
-		<Button href={`/Workshops/${encodeURIComponent(id)}`}>Book her</Button>
+		<div data-workshop-button>
+			<Button href={`/Workshops/${encodeURIComponent(id)}`}>
+				Book her
+			</Button>
+		</div>
 	</div>
 </article>
 
