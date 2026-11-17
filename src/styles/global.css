@@ -259,3 +259,23 @@ h6 {
   background-color: var(--color-pink);
   background-image: linear-gradient(180deg, rgba(108, 16, 64, 0) 72%, var(--color-wine) 100%);
 }
+
+/* WATERMARKS TIL HVER SEKTION */
+
+.karrusel {
+  position: relative;
+  isolation: isolate;
+  padding: 100px 0 80px;
+  color: var(--color-offwhite-50);
+}
+.section {
+  position: relative;
+  isolation: isolate;
+  padding: 140px 0;
+}
+.ny {
+  position: relative;
+  isolation: isolate;
+  padding: 120px 0 110px;
+  color: var(--color-offwhite-50);
+}
