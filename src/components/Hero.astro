@@ -2,6 +2,7 @@
 import Button from "./Button.astro";
 import { Image } from "astro:assets";
 import baggrund from "../assets/hero-baggrund.png";
+import watermark from "../assets/watermarkhero.svg";
 
 interface Props {
   variant?: "forside" | "side";
@@ -31,6 +32,7 @@ const {
 <section class={`hero hero--${variant}`}>
   <Image class="hero__bg" src={baggrund} alt="" aria-hidden="true" loading="eager" />
   <div class="hero__overlay" aria-hidden="true"></div>
+  <Image class="hero__watermark" src={watermark} alt="" aria-hidden="true" loading="eager" />
 
   <div class="container hero__inner">
     {image && (
@@ -87,6 +89,16 @@ const {
     position: absolute;
     inset: 0;
     background: linear-gradient(to bottom, rgba(108, 16, 64, 0) 60%, rgba(108, 16, 64, 0.8));
+  }
+
+  /* Watermark i venstre side bag indholdet */
+  .hero__watermark {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: auto;
+    height: 85%;
+    pointer-events: none;
   }
 
   /* Opdeling i to kolonner */
@@ -230,6 +242,10 @@ const {
     .hero__hours {
       padding: 14px 24px;
       border-radius: 24px;
+    }
+
+    .hero__watermark {
+      height: 50%;
     }
   }
 </style>

@@ -1,6 +1,9 @@
 ---
 import Button from "./Button.astro";
+import Watermark from "./Watermark.astro";
+import watermark from "../assets/watermark03.svg";
 import kameraBillede from "../assets/kamera.svg";
+
 
 // Ikoner – fjern // foran linjerne, når ikonerne ligger i src/assets
 // import ikonKamera from "../assets/ikon-kamera.svg";
@@ -17,6 +20,7 @@ const trin: { label: string; ikon?: ImageMetadata }[] = [
 ---
 
 <section class="ny gradient-wine-pink">
+  <Watermark src={watermark} side="right" lodret="top" hoejde="100%" />
   <div class="container ny__inner">
     <img
       class="ny__kamera"

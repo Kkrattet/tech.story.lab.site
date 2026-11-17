@@ -2,7 +2,7 @@
 interface Props {
   title: string;
   text: string;
-  image?: ImageMetadata;
+  image?: ImageMetadata | string;
   imageAlt?: string;
   href: string;
   farve?: "pink" | "wine";
@@ -26,15 +26,15 @@ const {
   {image ? (
     <img
       class="card__image"
-      src={image.src}
+      src={typeof image === "string" ? image : image.src}
       alt={imageAlt}
-      width={image.width}
-      height={image.height}
+      width={typeof image === "string" ? undefined : image.width}
+      height={typeof image === "string" ? undefined : image.height}
       loading="lazy"
     />
   ) : (
     <div class="card__placeholder" aria-hidden="true">
-      
+
     </div>
   )}
 

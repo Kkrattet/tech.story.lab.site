@@ -7,8 +7,11 @@ import EventCard from "../components/EventCard.astro";
 import ImageText from "../components/ImageText.astro";
 import NyILabbet from "../components/NyILabbet.astro";
 import Galleri from "../components/Galleri.astro";
+import watermarkInspiration from "../assets/watermark02.svg";
+import watermarkEvents from "../assets/watermark04.svg";
+import watermarkTeamet from "../assets/watermark05.svg";
 // import billedeTeamet from "../assets/teamet.png";
-import logo from "../assets/logo.png";
+import logo from "../assets/logo.svg";
 import { dev } from "astro";
 
 // Supabase
@@ -159,7 +162,11 @@ const workshops = workshopsData.map((workshop) => {
     subtitle="Se, hvad andre studerende har skabt i labbet."
     baggrund="gradient-off-white"
     tekstfarve="mork"
-    kolonner={1}
+     kolonner={1}
+    watermark={watermarkInspiration}
+    watermarkSide="left"
+    watermarkHoejde="917px"
+  >
   >
     <Galleri
       projekter={projekter}
@@ -176,7 +183,10 @@ const workshops = workshopsData.map((workshop) => {
     buttonText="Se alle events"
     buttonHref="/events"
     baggrund="gradient-white-pink"
-    tekstfarve="pink"
+       tekstfarve="pink"
+    watermark={watermarkEvents}
+    watermarkSide="left"
+    watermarkHoejde="570px"
   >
     {workshops.slice(0, 3).map((workshop) => (
       <EventCard {...workshop} />
@@ -191,5 +201,7 @@ const workshops = workshopsData.map((workshop) => {
     buttonHref="/om"
     baggrund="gradient-pink-white"
     tekstfarve="mork"
+    watermark={watermarkTeamet}
+    watermarkHoejde="712px"
   />
 </BaseLayout>

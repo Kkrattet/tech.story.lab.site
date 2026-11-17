@@ -1,5 +1,6 @@
 ---
 import Button from "./Button.astro";
+import Watermark from "./Watermark.astro";
 
 interface Props {
   title: string;
@@ -16,6 +17,10 @@ interface Props {
     | "gradient-pink-wine";
   tekstfarve?: "lys" | "mork" | "pink";
   kolonner?: number;
+   watermark?: ImageMetadata;
+  watermarkSide?: "left" | "right";
+  watermarkLodret?: "top" | "bottom";
+  watermarkHoejde?: string;
 }
 
 const {
@@ -26,10 +31,17 @@ const {
   baggrund = "gradient-wine",
   tekstfarve = "lys",
   kolonner = 3,
+  watermark,
+  watermarkSide = "left",
+  watermarkLodret = "bottom",
+  watermarkHoejde = "100%",
 } = Astro.props;
 ---
 
 <section class={`section ${baggrund} section--${tekstfarve}`}>
+  {watermark && (
+    <Watermark src={watermark} side={watermarkSide} lodret={watermarkLodret} hoejde={watermarkHoejde} />
+  )}
   <div class="container">
     <div class="section__head">
       <div>
