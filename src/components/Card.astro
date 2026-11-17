@@ -81,11 +81,18 @@ const {
 
   /* Billedet bliver skåret til */
   .card__image {
-    width: calc(100% + 72px);
-    max-width: none;
-    height: 284px;
+    width: 100%;
+    aspect-ratio: 1 / 0.85;
+    margin-bottom: 30px;
     object-fit: cover;
-    object-position: left center;
+    clip-path: polygon(
+      6% 23%,
+      80% 0%,
+      100% 7%,
+      100% 92%,
+      55% 100%,
+      0% 88%
+    );
   }
 
   /* Pladsholder med kryds, indtil billedet er sat ind */
