@@ -12,7 +12,7 @@ import luke from "../assets/luke.webp";
 import mikki from "../assets/mikki.webp";
 import kristoffer from "../assets/kristoffer.webp";
 import findOs from "../assets/studio7.webp";
-import hvemErVi from "../assets/studio6.webp";
+import hvemErVi from "../assets/studio1.webp";
 
 // Type til teammedlemmer
 type TeamMember = {
@@ -205,9 +205,7 @@ const team: TeamMember[] = [
 
 <style>
 
-/* =====================================
-   TEAM
-===================================== */
+/* TEAM */
 
 .team-grid {
   display: flex;
@@ -234,7 +232,7 @@ const team: TeamMember[] = [
 
 /* TeamCard */
 .team-item :global(.team) {
-  height: 340px;
+  height: 280px;
   padding: 18px;
   border-radius: 20px;
 }
@@ -255,9 +253,7 @@ const team: TeamMember[] = [
 }
 
 
-/* =====================================
-   FIND OS
-===================================== */
+/* FIND OS */
 
 .find-content {
   display: grid;
@@ -306,9 +302,7 @@ const team: TeamMember[] = [
 }
 
 
-/* =====================================
-   HVEM ER VI
-===================================== */
+/* HVEM ER VI */
 
 .about-content {
   display: grid;
@@ -323,7 +317,9 @@ const team: TeamMember[] = [
 }
 
 .about-image {
-  min-height: 230px;
+  width: 100%;
+  max-width: 450px;
+  height: 300px;
   overflow: hidden;
   border-radius: 20px;
 }
@@ -332,14 +328,12 @@ const team: TeamMember[] = [
   display: block;
   width: 100%;
   height: 100%;
-  min-height: 230px;
   object-fit: cover;
+  object-position: center;
 }
 
 
-/* =====================================
-   DESKTOP
-===================================== */
+/* DESKTOP */
 
 @media (min-width: 901px) {
 
@@ -385,20 +379,25 @@ const team: TeamMember[] = [
 
 
   /* HVEM ER VI */
-  .about-content {
-    grid-template-columns: 1fr 1fr;
-    gap: 50px;
-    align-items: center;
-  }
+.about-content {
+  grid-template-columns: 1fr 1fr;
+  gap: 50px;
+  align-items: start;
+}
+
+.about-image {
+  justify-self: center;
+  height: 500px;
+}
 
   .about-text {
     max-width: 500px;
   }
 
-  .about-image,
+  /* .about-image,
   .about-image img {
     min-height: 350px;
-  }
+  } */
 
 }
 
