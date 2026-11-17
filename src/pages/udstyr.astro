@@ -2,7 +2,6 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Hero from "../components/Hero.astro";
 
-
 import Button from "../components/Button.astro"
 
 import Card from "../components/Card.astro"
@@ -12,6 +11,22 @@ import CardKarrusel from "../components/CardKarrusel.astro"
 import Section from "../components/Section.astro";
 
 
+
+
+const url = "https://pynptdpmxtmlymghsvwv.supabase.co/rest/v1/";
+const table = "Udstyr";
+const apikey = "sb_publishable_ufVkQer6tuCPMGxARmZODw_d-_5JubH";
+
+const options = {
+  headers: {
+    apikey: apikey,
+  },
+};
+
+const response = await fetch(url + table, options);
+const data = await response.json();
+
+console.log(data);
 
 const udstyrspakkerKort = [
   {
@@ -114,6 +129,25 @@ const udstyrspakkerKort = [
   buttonHref="#"
   >
 
+  {
+    data.map((udstyr) => {
+      if(udstyr.udstyr_section === "lys-stabilisering") {
+        return <Card
+                image={udstyr.Billede}
+                imageAlt = `Billede af ${udstyr.Navn}`
+                title={udstyr.Navn}
+                text={udstyr.Beskrivelse}
+                href="#"
+                farve="pink"
+                status={udstyr.Ledigt? "Ledig nu" : "Optaget"}
+                linkLabel="Se ledighed"
+              />
+        }
+    })
+  }
+
+  <!--
+
   <Card
   title="LED-panel"
   text="Blødt lys til video og foto"
@@ -140,6 +174,8 @@ const udstyrspakkerKort = [
   status="Optaget"
   linkLabel="Se ledighed"
 />
+
+ -->
   </Section>
   
   <Section

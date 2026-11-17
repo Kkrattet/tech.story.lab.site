@@ -2,7 +2,7 @@
 interface Props {
   title: string;
   text: string;
-  image?: ImageMetadata;
+  image?: string;
   imageAlt?: string;
   href: string;
   farve?: "pink" | "wine";
@@ -26,10 +26,8 @@ const {
   {image ? (
     <img
       class="card__image"
-      src={image.src}
+      src={image}
       alt={imageAlt}
-      width={image.width}
-      height={image.height}
       loading="lazy"
     />
   ) : (
@@ -45,7 +43,7 @@ const {
     <div class="card__bottom">
       {status && (
         <span class="card__status">
-          <span class="card__dot" aria-hidden="true"></span>
+          <span class={`card__dot ${status === "Ledig nu" ? "card__dot__available" : ""}`} aria-hidden="true"></span>
           {status}
         </span>
       )}
@@ -81,8 +79,6 @@ const {
 
   /* Billedet bliver skåret til */
   .card__image {
-    width: calc(100% + 72px);
-    max-width: none;
     height: 284px;
     object-fit: cover;
     object-position: left center;
@@ -159,6 +155,10 @@ const {
     height: 10px;
     border-radius: 50%;
     background: var(--color-magenta);
+  }
+
+  .card__dot__available {
+    background-color: greenyellow;
   }
 
   /* Lille gul knap: LÅN PAKKEN → / SE LEDIGHED → */
