@@ -9,6 +9,19 @@ import watermarkKalender from "../assets/watermark02.svg";
 import watermarkEvents from "../assets/watermark06.svg";
 import watermarkInspiration from "../assets/watermark05.svg";
 
+// Billede til hero
+import heroBillede from "../assets/image/vr1.jpg";
+
+// Billeder til "Bliv inspireret"
+import projektKarma from "../assets/image/podcast1.webp";
+import projektKigger from "../assets/image/camera1.webp";
+import projektGraenser from "../assets/image/vr1.jpg";
+import projektPortraetter from "../assets/image/camera2.webp";
+import projektKulisser from "../assets/image/studio7.webp";
+import projektSammen from "../assets/image/studies.webp";
+import projektLinjer from "../assets/image/podcast2.webp";
+import projektOejeblik from "../assets/image/camera4.webp";
+
 const apiurl = "https://pynptdpmxtmlymghsvwv.supabase.co/rest/v1/";
 const workshopsTableName = "Workshops";
 const options = {
@@ -44,14 +57,14 @@ const workshops = workshopsData.map((workshop) => {
 });
 
 const projekter = [
-  { title: "Karma", text: "En podcast om livets op- og nedture" },
-  { title: "Hvor kigger vi?", text: "Et eksperiment med øjne og opmærksomhed" },
-  { title: "Uden grænser", text: "En virtuel oplevelse skabt af studerende" },
-  { title: "Portrætter med personlighed", text: "Et fotoprojekt om identitet og udtryk" },
-  { title: "Bag kulisserne", text: "Fra den første idé til den færdige film" },
-  { title: "Skabt sammen", text: "Et kreativt projekt fra idé til virkelighed" },
-  { title: "Mellem linjerne", text: "En podcast om det, vi sjældent taler om" },
-  { title: "Et øjeblik i livet", text: "En kortfilm om de små, store øjeblikke" },
+  { title: "Karma", text: "En podcast om livets op- og nedture", image: projektKarma, imageAlt: "Podcastudstyr i studiet" },
+  { title: "Hvor kigger vi?", text: "Et eksperiment med øjne og opmærksomhed", image: projektKigger, imageAlt: "Et øje set gennem et kamera" },
+  { title: "Uden grænser", text: "En virtuel oplevelse skabt af studerende", image: projektGraenser, imageAlt: "Person med VR-headset i lilla lys" },
+  { title: "Portrætter med personlighed", text: "Et fotoprojekt om identitet og udtryk", image: projektPortraetter, imageAlt: "Fotograf med kamera" },
+  { title: "Bag kulisserne", text: "Fra den første idé til den færdige film", image: projektKulisser, imageAlt: "Optagelse i fotostudiet" },
+  { title: "Skabt sammen", text: "Et kreativt projekt fra idé til virkelighed", image: projektSammen, imageAlt: "Skitser og udstyr på et bord" },
+  { title: "Mellem linjerne", text: "En podcast om det, vi sjældent taler om", image: projektLinjer, imageAlt: "Mikrofon og lydmixer" },
+  { title: "Et øjeblik i livet", text: "En kortfilm om de små, store øjeblikke", image: projektOejeblik, imageAlt: "Kamera på stativ i et lyst lokale" },
 ];
 ---
 
@@ -61,6 +74,8 @@ const projekter = [
     title="Events og workshops"
     subtitle="Kom og nørd med os."
     text="Workshops for nysgerrige, ikke eksperter."
+    image={heroBillede}
+    imageAlt="Person med VR-headset i lilla lys"
     buttons={[{ label: "Find din workshop", href: "#kalender" }]}
   />
 

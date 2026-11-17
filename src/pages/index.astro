@@ -10,7 +10,7 @@ import Galleri from "../components/Galleri.astro";
 import watermarkInspiration from "../assets/watermark02.svg";
 import watermarkEvents from "../assets/watermark04.svg";
 import watermarkTeamet from "../assets/watermark05.svg";
-// import billedeTeamet from "../assets/teamet.png";
+import billedeTeamet from "../assets/image/teamet-gruppe.png";
 import logo from "../assets/logo.svg";
 import { dev } from "astro";
 
@@ -55,57 +55,74 @@ console.log("workshopsData", workshopsData);
 
 
 // Billeder til "Find vej i labbet"
-// Fjern // foran linjerne, når billederne ligger i src/assets
-// import kortStudio from "../assets/kort-studio.png";
-// import kortUdstyr from "../assets/kort-udstyr.png";
-// import kortBook from "../assets/kort-book.png";
-// import kortNy from "../assets/kort-ny.png";
-// import kortProjekter from "../assets/kort-projekter.png";
-// import kortEvents from "../assets/kort-events.png";
-// import kortOmOs from "../assets/kort-om-os.png";
+import kortStudio from "../assets/image/studio1.webp";
+import kortUdstyr from "../assets/image/camera1.webp";
+import kortBook from "../assets/image/studio5.webp";
+import kortNy from "../assets/image/camera3.webp";
+import kortProjekter from "../assets/image/podcast3.webp";
+import kortEvents from "../assets/image/vr2.webp";
+import kortOmOs from "../assets/image/teamet-gruppe.png";
+
+// Billeder til "Bliv inspireret"
+import projektKarma from "../assets/image/podcast1.webp";
+import projektKigger from "../assets/image/camera1.webp";
+import projektGraenser from "../assets/image/vr1.jpg";
+import projektPortraetter from "../assets/image/camera2.webp";
+import projektKulisser from "../assets/image/studio7.webp";
+import projektSammen from "../assets/image/studies.webp";
+import projektLinjer from "../assets/image/podcast2.webp";
+import projektOejeblik from "../assets/image/camera4.webp";
 
 const findVejKort = [
   {
     title: "Studio",
     text: "Book et studie til podcast, foto og video.",
     href: "/studios",
-    // image: kortStudio,
+    image: kortStudio,
+    imageAlt: "Fotostudie med lys og kamera",
   },
   {
     title: "Udstyr",
     text: "Kameraer, mikrofoner, VR og meget mere.",
     href: "/udstyr",
-    // image: kortUdstyr,
+    image: kortUdstyr,
+    imageAlt: "Kamera holdt op foran et øje",
   },
   {
     title: "Book & lån",
     text: "Lån med dit studiekort. Book på to minutter.",
     href: "/udstyr",
-    // image: kortBook,
+    image: kortBook,
+    imageAlt: "Udstyr klar til udlån",
   },
   {
     title: "Ny i labbet?",
     text: "Aldrig prøvet det før? Perfekt.",
     href: "/ny-i-labbet",
-    // image: kortNy,
+    image: kortNy,
+    imageAlt: "Studerende arbejder ved en computer i labbet",
   },
   {
     title: "Projekter",
     text: "Se, hvad andre har skabt.",
     href: "/inspiration",
-    // image: kortProjekter,
+    image: kortProjekter,
+    imageAlt: "To studerende optager en podcast",
   },
   {
     title: "Events",
     text: "Workshops, foredrag og fredagsbar.",
     href: "/events",
-    // image: kortEvents,
+    image: kortEvents,
+    imageAlt: "Person prøver et VR-headset",
   },
   {
     title: "Om os",
     text: "Mød nørderne bag labbet.",
     href: "/om",
-    // image: kortOmOs,
+    image: kortOmOs,
+    imageAlt: "Teamet bag Tech & Story Lab",
+    
   },
 ];
 
@@ -113,14 +130,14 @@ const findVejKort = [
 // Rækkefølgen bestemmer pladsen i gitteret (1 = stor øverst til venstre)
 // Senere kan listen hentes fra Supabase i stedet
 const projekter = [
-  { title: "Karma", text: "En podcast om livets op- og nedture" },
-  { title: "Hvor kigger vi?", text: "Et eksperiment med øjne og opmærksomhed" },
-  { title: "Uden grænser", text: "En virtuel oplevelse skabt af studerende" },
-  { title: "Portrætter med personlighed", text: "Et fotoprojekt om identitet og udtryk" },
-  { title: "Bag kulisserne", text: "Fra den første idé til den færdige film" },
-  { title: "Skabt sammen", text: "Et kreativt projekt fra idé til virkelighed" },
-  { title: "Mellem linjerne", text: "En podcast om det, vi sjældent taler om" },
-  { title: "Et øjeblik i livet", text: "En kortfilm om de små, store øjeblikke" },
+  { title: "Karma", text: "En podcast om livets op- og nedture", image: projektKarma, imageAlt: "Podcastudstyr i studiet" },
+  { title: "Hvor kigger vi?", text: "Et eksperiment med øjne og opmærksomhed", image: projektKigger, imageAlt: "Et øje set gennem et kamera" },
+  { title: "Uden grænser", text: "En virtuel oplevelse skabt af studerende", image: projektGraenser, imageAlt: "Person med VR-headset i lilla lys" },
+  { title: "Portrætter med personlighed", text: "Et fotoprojekt om identitet og udtryk", image: projektPortraetter, imageAlt: "Fotograf med kamera" },
+  { title: "Bag kulisserne", text: "Fra den første idé til den færdige film", image: projektKulisser, imageAlt: "Optagelse i fotostudiet" },
+  { title: "Skabt sammen", text: "Et kreativt projekt fra idé til virkelighed", image: projektSammen, imageAlt: "Skitser og udstyr på et bord" },
+  { title: "Mellem linjerne", text: "En podcast om det, vi sjældent taler om", image: projektLinjer, imageAlt: "Mikrofon og lydmixer" },
+  { title: "Et øjeblik i livet", text: "En kortfilm om de små, store øjeblikke", image: projektOejeblik, imageAlt: "Kamera på stativ i et lyst lokale" },
 ];
 
 const workshops = workshopsData.map((workshop) => {
@@ -167,7 +184,6 @@ const workshops = workshopsData.map((workshop) => {
     watermarkSide="left"
     watermarkHoejde="917px"
   >
-  >
     <Galleri
       projekter={projekter}
       buttonText="Døren til inspiration"
@@ -197,6 +213,8 @@ const workshops = workshopsData.map((workshop) => {
     title="Mød nørderne bag labbet"
     subtitle="Spørg os om alt. Vi elsker det."
     text="Vi er fire nørder med hver vores speciale – fra lyd og podcast til VR og programmering. Kig forbi i A025, så hjælper vi dig i gang med dit projekt."
+    image={billedeTeamet}
+    imageAlt="De fire nørder bag Tech & Story Lab"
     buttonText="Mød teamet"
     buttonHref="/om"
     baggrund="gradient-pink-white"

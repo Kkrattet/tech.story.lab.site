@@ -48,28 +48,39 @@ const currentPath = Astro.url.pathname;
 </header>
 
 <script>
-  // Burgermenu: åbner og lukker menuen på mobil
-  const toggle = document.querySelector(".header__toggle");
-  const nav = document.querySelector(".header__nav");
-
-  toggle?.addEventListener("click", () => {
-    const open = toggle.getAttribute("aria-expanded") === "true";
-    toggle.setAttribute("aria-expanded", String(!open));
-    nav?.classList.toggle("open");
-  });
-
   // Scroll-indikator: fylder bjælken op, mens man scroller
-  const fill = document.querySelector<HTMLElement>(".header__progress-fill");
-
   function updateProgress() {
+    // Find baren hver gang, så det også virker efter sideskift
+    const fill = document.querySelector<HTMLElement>(".header__progress-fill");
     const scrollable = document.documentElement.scrollHeight - window.innerHeight;
     const progress = scrollable > 0 ? (window.scrollY / scrollable) * 100 : 0;
     if (fill) fill.style.width = `${progress}%`;
   }
 
+  // Burgermenu: åbner og lukker menuen på mobil
+  function startHeader() {
+    const toggle = document.querySelector<HTMLButtonElement>(".header__toggle");
+    const nav = document.querySelector(".header__nav");
+
+    if (toggle && !toggle.dataset.klar) {
+      toggle.dataset.klar = "true";
+      toggle.addEventListener("click", () => {
+        const open = toggle.getAttribute("aria-expanded") === "true";
+        toggle.setAttribute("aria-expanded", String(!open));
+        nav?.classList.toggle("open");
+      });
+    }
+
+    updateProgress();
+  }
+
   window.addEventListener("scroll", updateProgress);
   window.addEventListener("resize", updateProgress);
-  updateProgress();
+
+  // Første indlæsning
+  startHeader();
+  // Efter navigation med view transitions
+  document.addEventListener("astro:page-load", startHeader);
 </script>
 
 <style>

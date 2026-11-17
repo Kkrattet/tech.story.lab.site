@@ -10,6 +10,7 @@ import CardKarrusel from "../components/CardKarrusel.astro"
 
 import Section from "../components/Section.astro";
 
+import heroUdstyr from "../assets/image/studio5.webp";
 
 
 
@@ -50,11 +51,13 @@ console.log("udstyrsPakker", udstyrsPakker);
 ---
 
 <BaseLayout title="Udstyr">
-  <Hero
+    <Hero
  eyebrow="Tech & Story Lab"
     title="Udstyr"
     subtitle="Lån det. Lær det. Lav noget med det."
     text="Gratis for studerende."
+    image={heroUdstyr}
+    imageAlt="Kamera og udstyr klar til udlån"
     buttons={[{ label: "Find udstyr", href: "#udstyr" }]}  
   />
 
