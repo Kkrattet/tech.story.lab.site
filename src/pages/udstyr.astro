@@ -1,14 +1,251 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Hero from "../components/Hero.astro";
+
+import Button from "../components/Button.astro"
+
+import Card from "../components/Card.astro"
+
+import CardKarrusel from "../components/CardKarrusel.astro"
+
+import Section from "../components/Section.astro";
+
+
+
+
+const url = "https://pynptdpmxtmlymghsvwv.supabase.co/rest/v1/";
+const table = "Udstyr";
+const apikey = "sb_publishable_ufVkQer6tuCPMGxARmZODw_d-_5JubH";
+
+const options = {
+  headers: {
+    apikey: apikey,
+  },
+};
+
+const response = await fetch(url + table, options);
+const data = await response.json();
+
+console.log(data);
+
+
+
+let udstyrsPakker = [];
+
+data.forEach((udstyr) => {
+  if(udstyr.Kategori === "Pakke") {
+    udstyrsPakker.push({
+        title: udstyr.Navn,
+        text: udstyr.Beskrivelse,
+        href: "#",
+        linkLabel: "Lån pakken",
+        image: udstyr.Billede,
+      })
+    }
+  }
+)
+
+console.log("udstyrsPakker", udstyrsPakker);
+
 ---
 
 <BaseLayout title="Udstyr">
   <Hero
-    eyebrow="Tech & Story Lab"
+ eyebrow="Tech & Story Lab"
     title="Udstyr"
     subtitle="Lån det. Lær det. Lav noget med det."
     text="Gratis for studerende."
-    buttons={[{ label: "Find udstyr", href: "#udstyr" }]}
+    buttons={[{ label: "Find udstyr", href: "#udstyr" }]}  
   />
+
+ 
+
+
+   <CardKarrusel
+    title="UDSTYRSPAKKE"
+    subtitle="Alt det, du skal bruge, samlet i én pakke."
+    kort={udstyrsPakker}
+  />
+
+  
+
+
+
+  <Section
+    title="FOTO & VIDEO"
+  subtitle="Kameraer og objektiver til foto, video og SoMe."
+  baggrund="gradient-off-white"
+  tekstfarve="mork"
+  kolonner={3}
+  buttonText="Se alt udstyr"
+  buttonHref="#"
+  >
+
+
+{
+    data.map((udstyr) => {
+      if(udstyr.udstyr_section === "foto-video") {
+        return <Card
+                image={udstyr.Billede}
+                imageAlt = `Billede af ${udstyr.Navn}`
+                title={udstyr.Navn}
+                text={udstyr.Beskrivelse}
+                href="#"
+                farve="pink"
+                status={udstyr.Ledigt? "Ledig nu" : "Optaget"}
+                linkLabel="Se ledighed"
+              />
+        }
+    })
+  }
+
+
+
+  <!-- <Card
+  title="Canon-objektiv"
+  text="Skarpe portrætter og interviews"
+  href="#"
+  farve="wine"
+  status="Optaget"
+  linkLabel="Se ledighed"
+/>
+
+<Card
+  title="Sony Alpha"
+  text="Foto og video i høj kvalitet"
+  href="#"
+  farve="wine"
+  status="Ledig nu"
+  linkLabel="Se ledighed"
+/>
+
+<Card
+  title="GoPro"
+  text="Action og POV-optagelser"
+  href="#"
+  farve="wine"
+  status="Ledig nu"
+  linkLabel="Se ledighed"
+/> -->
+  </Section>
+
+   <Section
+    title="LYS & STABILISERING"
+  subtitle="Lys, stativer og gimbals til rolige og flotte optagelser."
+  baggrund="gradient-wine-pink"
+  tekstfarve="lys"
+  kolonner={3}
+  buttonText="Se alt udstyr"
+  buttonHref="#"
+  >
+
+  {
+    data.map((udstyr) => {
+      if(udstyr.udstyr_section === "lys-stabilisering") {
+        return <Card
+                image={udstyr.Billede}
+                imageAlt = `Billede af ${udstyr.Navn}`
+                title={udstyr.Navn}
+                text={udstyr.Beskrivelse}
+                href="#"
+                farve="pink"
+                status={udstyr.Ledigt? "Ledig nu" : "Optaget"}
+                linkLabel="Se ledighed"
+              />
+        }
+    })
+  }
+
+  <!--
+
+  <Card
+  title="LED-panel"
+  text="Blødt lys til video og foto"
+  href="#"
+  farve="pink"
+  status="Ledig nu"
+  linkLabel="Se ledighed"
+/>
+
+<Card
+  title="Stativ"
+  text="Faste og rolige billeder"
+  href="#"
+  farve="pink"
+  status="Ledig nu"
+  linkLabel="Se ledighed"
+/>
+
+<Card
+  title="DJI Ronin"
+  text="Glidende kamerabevægelser"
+  href="#"
+  farve="pink"
+  status="Optaget"
+  linkLabel="Se ledighed"
+/>
+
+ -->
+  </Section>
+  
+  <Section
+    title="VR, AR & 360"
+  subtitle="Ingen forkundskaber. Kun nysgerrighed."
+  baggrund="gradient-pink-wine"
+  tekstfarve="lys"
+  kolonner={3}
+  buttonText="Se alt udstyr"
+  buttonHref="#"
+  >
+
+{
+    data.map((udstyr) => {
+      if(udstyr.udstyr_section === "vr-ar-360") {
+        return <Card
+                image={udstyr.Billede}
+                imageAlt = `Billede af ${udstyr.Navn}`
+                title={udstyr.Navn}
+                text={udstyr.Beskrivelse}
+                href="#"
+                farve="pink"
+                status={udstyr.Ledigt? "Ledig nu" : "Optaget"}
+                linkLabel="Se ledighed"
+              />
+        }
+    })
+  }
+
+
+  
+  <!-- <Card
+  title="VR-headset"
+  text="Oplev og test fortællinger i VR"
+  href="#"
+  farve="wine"
+  status="Ledig nu"
+  linkLabel="Se ledighed"
+/>
+
+<Card
+  title="360-kamera"
+  text="Optag hele rummet på én gang"
+  href="#"
+  farve="wine"
+  status="Ledig nu"
+  linkLabel="Se ledighed"
+/>
+
+<Card
+  title="Drone"
+  text="Optagelser fra luften"
+  href="#"
+  farve="wine"
+  status="Optaget"
+  linkLabel="Se ledighed"
+/> -->
+  </Section>
+
+
+  
 </BaseLayout>
+
