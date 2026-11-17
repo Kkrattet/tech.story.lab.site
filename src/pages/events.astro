@@ -1,6 +1,55 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Hero from "../components/Hero.astro";
+import Section from "../components/Section.astro";
+import EventCard from "../components/EventCard.astro";
+import Kalender from "../components/Kalender.astro";
+import Galleri from "../components/Galleri.astro";
+
+const apiurl = "https://pynptdpmxtmlymghsvwv.supabase.co/rest/v1/";
+const workshopsTableName = "Workshops";
+const options = {
+  headers: {
+    apikey: "sb_publishable_ufVkQer6tuCPMGxARmZODw_d-_5JubH",
+  },
+};
+
+interface Workshop {
+  id: string;
+  name: string;
+  date: string;
+  description: string;
+  image: string;
+}
+
+const workshopsResponse = await fetch(
+  apiurl + workshopsTableName + "?select=id,name,date,description,image",
+  options,
+);
+const workshopsData = (await workshopsResponse.json()) as Workshop[];
+
+const workshops = workshopsData.map((workshop) => {
+  const [dag = "", ...maanedParts] = workshop.date.trim().split(/\s+/);
+
+  return {
+    dag: dag.replace(/\.$/, ""),
+    maaned: maanedParts.join(" "),
+    title: workshop.name,
+    tid: workshop.description,
+    href: `/Workshops/${encodeURIComponent(workshop.id)}`,
+  };
+});
+
+const projekter = [
+  { title: "Karma", text: "En podcast om livets op- og nedture" },
+  { title: "Hvor kigger vi?", text: "Et eksperiment med øjne og opmærksomhed" },
+  { title: "Uden grænser", text: "En virtuel oplevelse skabt af studerende" },
+  { title: "Portrætter med personlighed", text: "Et fotoprojekt om identitet og udtryk" },
+  { title: "Bag kulisserne", text: "Fra den første idé til den færdige film" },
+  { title: "Skabt sammen", text: "Et kreativt projekt fra idé til virkelighed" },
+  { title: "Mellem linjerne", text: "En podcast om det, vi sjældent taler om" },
+  { title: "Et øjeblik i livet", text: "En kortfilm om de små, store øjeblikke" },
+];
 ---
 
 <BaseLayout title="Events og workshops">
@@ -11,4 +60,41 @@ import Hero from "../components/Hero.astro";
     text="Workshops for nysgerrige, ikke eksperter."
     buttons={[{ label: "Find din workshop", href: "#kalender" }]}
   />
+
+  <div id="events-page-events">
+    <Section
+      title="Events & workshops"
+      subtitle="Workshops for nysgerrige, ikke eksperter."
+      buttonText="Se alle events"
+      buttonHref="/events"
+      baggrund="gradient-wine-pink"
+      tekstfarve="pink"
+    >
+      {workshops.slice(0, 3).map((workshop) => (
+        <EventCard {...workshop} farve="pink" />
+      ))}
+    </Section>
+  </div>
+
+  <Kalender />
+
+  <Section
+    title="Bliv inspireret"
+    subtitle="Se, hvad andre studerende har skabt i labbet."
+    baggrund="gradient-off-white"
+    tekstfarve="mork"
+    kolonner={1}
+  >
+    <Galleri
+      projekter={projekter}
+      buttonText="Døren til inspiration"
+      buttonHref="/inspiration"
+    />
+  </Section>
 </BaseLayout>
+
+<style>
+  :global(#events-page-events .section--pink .section__subtitle) {
+    color: var(--color-offwhite-50);
+  }
+</style>
