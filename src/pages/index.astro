@@ -7,6 +7,9 @@ import EventCard from "../components/EventCard.astro";
 import ImageText from "../components/ImageText.astro";
 import NyILabbet from "../components/NyILabbet.astro";
 import Galleri from "../components/Galleri.astro";
+import watermarkInspiration from "../assets/watermark02.svg";
+import watermarkEvents from "../assets/watermark04.svg";
+import watermarkTeamet from "../assets/watermark05.svg";
 // import billedeTeamet from "../assets/teamet.png";
 import logo from "../assets/logo.svg";
 import { dev } from "astro";
@@ -121,7 +124,7 @@ const projekter = [
 
 const maaneder = ["Jan", "Feb", "Mar", "Apr", "Maj", "Jun", "Jul", "Aug", "Sep", "Okt", "Nov", "Dec"];
 
-const events = eventsData.map((event) => {
+const events = eventsData.map((event: any) => {
   const dato = new Date(event.Dato);
 
   return {
@@ -159,7 +162,11 @@ const events = eventsData.map((event) => {
     subtitle="Se, hvad andre studerende har skabt i labbet."
     baggrund="gradient-off-white"
     tekstfarve="mork"
-    kolonner={1}
+     kolonner={1}
+    watermark={watermarkInspiration}
+    watermarkSide="left"
+    watermarkHoejde="917px"
+  >
   >
     <Galleri
       projekter={projekter}
@@ -176,10 +183,13 @@ const events = eventsData.map((event) => {
     buttonText="Se alle events"
     buttonHref="/events"
     baggrund="gradient-white-pink"
-    tekstfarve="pink"
+       tekstfarve="pink"
+    watermark={watermarkEvents}
+    watermarkSide="left"
+    watermarkHoejde="570px"
   >
-    {events.map((event) => (
-      <EventCard {...event} href="/events" />
+{events.map((event: any) => (
+        <EventCard {...event} href="/events" />
     ))}
   </Section>
 
@@ -191,5 +201,7 @@ const events = eventsData.map((event) => {
     buttonHref="/om"
     baggrund="gradient-pink-white"
     tekstfarve="mork"
+    watermark={watermarkTeamet}
+    watermarkHoejde="712px"
   />
 </BaseLayout>

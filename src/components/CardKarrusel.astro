@@ -1,5 +1,7 @@
 ---
 import Card from "./Card.astro";
+import Watermark from "./Watermark.astro";
+import watermark from "../assets/watermark01.svg";
 
 interface Kort {
   title: string;
@@ -30,6 +32,7 @@ const { title, subtitle, baggrund = "gradient-wine", kort } = Astro.props;
 ---
 
 <section class={`karrusel ${baggrund}`}>
+  <Watermark src={watermark} side="right" lodret="top" hoejde="100%" />
   <div class="container karrusel__head">
     <div>
       <h2 class="karrusel__title">{title}</h2>
