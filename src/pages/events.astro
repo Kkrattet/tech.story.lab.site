@@ -5,6 +5,9 @@ import Section from "../components/Section.astro";
 import EventCard from "../components/EventCard.astro";
 import Kalender from "../components/Kalender.astro";
 import Galleri from "../components/Galleri.astro";
+import watermarkKalender from "../assets/watermark02.svg";
+import watermarkEvents from "../assets/watermark06.svg";
+import watermarkInspiration from "../assets/watermark05.svg";
 
 const apiurl = "https://pynptdpmxtmlymghsvwv.supabase.co/rest/v1/";
 const workshopsTableName = "Workshops";
@@ -69,6 +72,9 @@ const projekter = [
       buttonHref="/events"
       baggrund="gradient-wine-pink"
       tekstfarve="pink"
+      watermark={watermarkEvents}
+    watermarkSide="right"
+    watermarkHoejde="517px"
     >
       {workshops.slice(0, 3).map((workshop) => (
         <EventCard {...workshop} farve="pink" />
@@ -76,7 +82,9 @@ const projekter = [
     </Section>
   </div>
 
-  <Kalender />
+  <Kalender  watermark={watermarkKalender}
+    watermarkSide="left"
+    watermarkHoejde="917px"/>
 
   <Section
     title="Bliv inspireret"
@@ -84,12 +92,16 @@ const projekter = [
     baggrund="gradient-off-white"
     tekstfarve="mork"
     kolonner={1}
+    watermark={watermarkInspiration}
+    watermarkSide="right"
+    watermarkHoejde="917px"
   >
     <Galleri
       projekter={projekter}
       buttonText="Døren til inspiration"
       buttonHref="/inspiration"
     />
+    
   </Section>
 </BaseLayout>
 

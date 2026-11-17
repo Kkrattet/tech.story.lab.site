@@ -1,7 +1,22 @@
 
 ---
 import WorkshopCard from "./WorkshopCard.astro";
+import Watermark from "./Watermark.astro";
 import calendarSvg from "../assets/kalender-interaktiv-croppet-rettet.svg";
+
+interface Props {
+  watermark?: ImageMetadata;
+  watermarkSide?: "left" | "right";
+  watermarkLodret?: "top" | "bottom";
+  watermarkHoejde?: string;
+}
+
+const {
+  watermark,
+  watermarkSide = "left",
+  watermarkLodret = "bottom",
+  watermarkHoejde = "100%",
+} = Astro.props;
 
 // Standardkort, mens Supabase indlæses
 const defaultWorkshop = {
@@ -14,6 +29,14 @@ const defaultWorkshop = {
 ---
 
 <section id="kalender" class="kalender-section gradient-white-pink">
+  {watermark && (
+    <Watermark
+      src={watermark}
+      side={watermarkSide}
+      lodret={watermarkLodret}
+      hoejde={watermarkHoejde}
+    />
+  )}
 
   <div class="kalender-container">
 

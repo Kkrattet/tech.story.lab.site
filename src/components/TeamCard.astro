@@ -20,14 +20,16 @@ const {
 
 <article class={`team team--${farve}`}>
   <div class="team__text">
-    <h3 class="team__name">{navn}</h3>
+    <h4 class="team__name">{navn}</h4>
     <p class="team__role">{rolle}</p>
   </div>
 
   {image ? (
-    <Image class="team__photo" src={image} alt={`Portræt af ${navn}`} loading="lazy" />
+    <div class="team-image">
+      <Image class="team__photo" src={image} alt={`Portræt af ${navn}`} loading="lazy" />
+    </div>
   ) : (
-    <div class="team__photo team__placeholder" aria-hidden="true">
+    <div class="team-image team__placeholder" aria-hidden="true">
       <span>Foto</span>
     </div>
   )}
@@ -63,9 +65,7 @@ const {
   .team__name {
     margin: 0;
     max-width: 280px;
-    font-family: var(--font-sans);
-    font-size: 1.875rem;
-    font-style: normal;
+    font-size: 3rem;
     font-weight: 900;
     line-height: 1;
   }
@@ -79,16 +79,29 @@ const {
     text-transform: uppercase;
   }
 
-  /* Fotoet går ud over højre og nederste kant */
-.team__photo {
-  position: absolute;
-  top: 134px;
-  left: 40px;
-  width: calc(100% - 40px);
-  height: 346px;
-  object-fit: cover;
-  object-position: center top;
-}
+  .team-image {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 74%;
+    height: 74%;
+    overflow: hidden;
+    clip-path: polygon(
+      6% 26%,
+      72% 0%,
+      100% 6%,
+      100% 100%,
+      0% 100%
+    );
+  }
+
+  .team-image img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center top;
+  }
 
   .team__placeholder {
     display: grid;
