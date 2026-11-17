@@ -1,0 +1,244 @@
+
+---
+import WorkshopCard from "./WorkshopCard.astro";
+import calendarSvg from "../assets/kalender-interaktiv-croppet-rettet.svg";
+
+// Standardkort, mens Supabase indlæses
+const defaultWorkshop = {
+  id: "marts-27",
+  name: "Intro til foto studio",
+  date: "27. MARTS",
+  description: "2 timer · Opsætning og indstilling",
+  image: "/images/fotostudie.jpg"
+};
+---
+
+<section id="kalender" class="kalender-section gradient-white-pink">
+
+  <div class="kalender-container">
+
+    <h2 class="kalender-title">
+      ÅRET RUNDT -<br />
+      KURSER & WORKSHOPS
+    </h2>
+
+    <div class="kalender-wrapper">
+
+      <!-- Jeres originale SVG -->
+      <object
+        id="workshopCalendar"
+        type="image/svg+xml"
+        data={calendarSvg.src}
+        aria-label="Interaktiv workshopkalender"
+      >
+      </object>
+
+      <!-- Astro card -->
+      <WorkshopCard {...defaultWorkshop} />
+
+    </div>
+  </div>
+
+</section>
+
+<script>
+  interface Workshop {
+    id: string;
+    name: string;
+    date: string;
+    description: string;
+    image: string;
+  }
+
+  // Samme Supabase som i index.astro
+  const apiurl =
+    "https://pynptdpmxtmlymghsvwv.supabase.co/rest/v1/";
+
+  const key =
+    "sb_publishable_ufVkQer6tuCPMGxARmZODw_d-_5JubH";
+
+  async function initKalender() {
+
+    const calendar = document.querySelector<HTMLObjectElement>(
+      "#workshopCalendar"
+    );
+
+    if (!calendar) return;
+    const calendarObject = calendar;
+
+    const title = document.querySelector<HTMLElement>(
+      "[data-workshop-title]"
+    );
+
+    const date = document.querySelector<HTMLElement>(
+      "[data-workshop-date]"
+    );
+
+    const description = document.querySelector<HTMLElement>(
+      "[data-workshop-description]"
+    );
+
+    const image = document.querySelector<HTMLImageElement>(
+      "[data-workshop-image]"
+    );
+
+    const link = document.querySelector<HTMLAnchorElement>(
+  "[data-workshop-button] a"
+);
+
+    // HENT WORKSHOPS FRA SUPABASE
+    const workshops: Record<string, Workshop> = {};
+
+    try {
+      const response = await fetch(
+        apiurl +
+        "Workshops?select=id,name,date,description,image",
+        {
+          headers: {
+            apikey: key
+          }
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error(
+          "Kunne ikke hente workshops: " + response.status
+        );
+      }
+
+      const data = (await response.json()) as Workshop[];
+
+      // Omdan Supabase-array til objekt
+      data.forEach((workshop) => {
+        workshops[workshop.id] = workshop;
+      });
+
+    } catch (error) {
+      console.error("Supabase-fejl:", error);
+    }
+
+    // OPDATER WORKSHOP CARD
+    function showWorkshop(id: string) {
+      const workshop = workshops[id];
+
+      if (!workshop) return;
+
+      if (title) {
+        title.textContent = workshop.name;
+      }
+
+      if (date) {
+        date.textContent = workshop.date;
+      }
+
+      if (description) {
+        description.textContent =
+          workshop.description;
+      }
+
+      if (image instanceof HTMLImageElement) {
+        image.src = workshop.image;
+        image.alt = workshop.name;
+      }
+
+      if (link instanceof HTMLAnchorElement) {
+        link.href = `/Workshops/${encodeURIComponent(id)}`;
+      }
+    }
+
+    // FORBIND SVG MED WORKSHOP CARD
+    function setupCalendar() {
+      const svgDoc = calendarObject.contentDocument;
+
+      if (!svgDoc) return;
+
+      const dots = svgDoc.querySelectorAll<SVGGElement>(".dot");
+
+      dots.forEach((dot) => {
+        const id = dot.getAttribute("data-id");
+
+        if (!id) return;
+
+        dot.addEventListener("mouseenter", () => {
+          showWorkshop(id);
+        });
+
+        dot.addEventListener("click", () => {
+          showWorkshop(id);
+        });
+
+        // Tastaturnavigation
+        dot.addEventListener("keydown", (event) => {
+          if (!(event instanceof KeyboardEvent)) return;
+
+          if (
+            event.key === "Enter" ||
+            event.key === " "
+          ) {
+            event.preventDefault();
+            showWorkshop(id);
+          }
+        });
+      });
+    }
+
+    calendarObject.addEventListener("load", setupCalendar);
+
+    if (calendarObject.contentDocument?.documentElement) {
+      setupCalendar();
+    }
+
+    // VIS STANDARDWORKSHOP
+    showWorkshop("marts-27");
+  }
+
+  document.addEventListener("astro:page-load", () => {
+    initKalender();
+  });
+</script>
+
+<style>
+  .kalender-section {
+    padding: 80px 5%;
+    width: 100%;
+  }
+
+  .kalender-container {
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  .kalender-title {
+    color: #fff9ed;
+    margin-bottom: 45px;
+  }
+
+  .kalender-wrapper {
+    display: grid;
+    grid-template-columns:
+      minmax(0, 1.7fr)
+      minmax(0, 1fr);
+    gap: 6%;
+    align-items: stretch;
+  }
+
+  #workshopCalendar {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 775 / 713;
+    display: block;
+    border: none;
+  }
+
+  @media (max-width: 768px) {
+    .kalender-section {
+      padding: 50px 20px;
+    }
+
+    .kalender-wrapper {
+      grid-template-columns: 1fr;
+      gap: 30px;
+    }
+
+  }
+</style>

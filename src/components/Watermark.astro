@@ -1,0 +1,35 @@
+---
+import { Image } from "astro:assets";
+
+interface Props {
+  src: ImageMetadata;
+  side?: "left" | "right";
+  lodret?: "top" | "bottom";
+  hoejde?: string;
+}
+
+const { src, side = "left", lodret = "bottom", hoejde = "100%" } = Astro.props;
+---
+
+<Image
+  class="watermark"
+  src={src}
+  alt=""
+  aria-hidden="true"
+  style={`${side}: 0; ${lodret}: 0; height: ${hoejde};`}
+/>
+
+<style>
+  .watermark {
+    position: absolute;
+    z-index: -1;
+    width: auto;
+    pointer-events: none;
+  }
+
+  @media (max-width: 900px) {
+    .watermark {
+      max-height: 50%;
+    }
+  }
+</style>

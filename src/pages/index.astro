@@ -7,17 +7,27 @@ import EventCard from "../components/EventCard.astro";
 import ImageText from "../components/ImageText.astro";
 import NyILabbet from "../components/NyILabbet.astro";
 import Galleri from "../components/Galleri.astro";
+import watermarkInspiration from "../assets/watermark02.svg";
+import watermarkEvents from "../assets/watermark04.svg";
+import watermarkTeamet from "../assets/watermark05.svg";
 // import billedeTeamet from "../assets/teamet.png";
-import logo from "../assets/logo.png";
+import logo from "../assets/logo.svg";
 import { dev } from "astro";
 
 // Supabase
 const apiurl = "https://pynptdpmxtmlymghsvwv.supabase.co/rest/v1/";
 
 const udstyrTableName = "Udstyr";
-const eventsTableName = "Events";
 const teametTableName = "Teamet";
 const workshopsTableName = "Workshops";
+
+interface Workshop {
+  id: string;
+  name: string;
+  date: string;
+  description: string;
+  image: string;
+}
 
 const key = "sb_publishable_ufVkQer6tuCPMGxARmZODw_d-_5JubH";
 
@@ -31,16 +41,15 @@ const udstyrResponse = await fetch(apiurl + udstyrTableName, options);
 const udstyrData = await udstyrResponse.json();
 console.log("udstyrData", udstyrData);
 
-const eventsResponse = await fetch(apiurl + eventsTableName, options);
-const eventsData = await eventsResponse.json();
-console.log("eventsData", eventsData);
-
 const teametResponse = await fetch(apiurl + teametTableName, options);
 const teametData = await teametResponse.json();
 console.log("teametData", teametData);
 
-const workshopsResponse = await fetch(apiurl + workshopsTableName, options);
-const workshopsData = await workshopsResponse.json();
+const workshopsResponse = await fetch(
+  apiurl + workshopsTableName + "?select=id,name,date,description,image",
+  options,
+);
+const workshopsData = (await workshopsResponse.json()) as Workshop[];
 console.log("workshopsData", workshopsData);
 
 
@@ -114,11 +123,17 @@ const projekter = [
   { title: "Et øjeblik i livet", text: "En kortfilm om de små, store øjeblikke" },
 ];
 
-const events = [
-  { dag: "12", maaned: "Nov", title: "Lær at bruge en gimbal", tid: "Kl. 14–16 · Tech & Story Lab" },
-  { dag: "19", maaned: "Nov", title: "Podcast fra idé til afsnit", tid: "Kl. 14–16 · Tech & Story Lab" },
-  { dag: "21", maaned: "Nov", title: "Fredagsbar i lobbyen", tid: "Kl. 14–16 · Tech & Story Lab" },
-];
+const workshops = workshopsData.map((workshop) => {
+  const [dag = "", ...maanedParts] = workshop.date.trim().split(/\s+/);
+
+  return {
+    dag: dag.replace(/\.$/, ""),
+    maaned: maanedParts.join(" "),
+    title: workshop.name,
+    tid: workshop.description,
+    href: `/Workshops/${encodeURIComponent(workshop.id)}`,
+  };
+});
 ---
 
 <BaseLayout title="Forside">
@@ -147,7 +162,11 @@ const events = [
     subtitle="Se, hvad andre studerende har skabt i labbet."
     baggrund="gradient-off-white"
     tekstfarve="mork"
-    kolonner={1}
+     kolonner={1}
+    watermark={watermarkInspiration}
+    watermarkSide="left"
+    watermarkHoejde="917px"
+  >
   >
     <Galleri
       projekter={projekter}
@@ -164,10 +183,13 @@ const events = [
     buttonText="Se alle events"
     buttonHref="/events"
     baggrund="gradient-white-pink"
-    tekstfarve="pink"
+       tekstfarve="pink"
+    watermark={watermarkEvents}
+    watermarkSide="left"
+    watermarkHoejde="570px"
   >
-    {events.map((event) => (
-      <EventCard {...event} href="/events" />
+    {workshops.slice(0, 3).map((workshop) => (
+      <EventCard {...workshop} />
     ))}
   </Section>
 
@@ -179,5 +201,7 @@ const events = [
     buttonHref="/om"
     baggrund="gradient-pink-white"
     tekstfarve="mork"
+    watermark={watermarkTeamet}
+    watermarkHoejde="712px"
   />
 </BaseLayout>
