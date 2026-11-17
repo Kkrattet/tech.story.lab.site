@@ -7,29 +7,36 @@ import Kalender from "../components/Kalender.astro";
 import Galleri from "../components/Galleri.astro";
 
 const apiurl = "https://pynptdpmxtmlymghsvwv.supabase.co/rest/v1/";
-const eventsTableName = "Events";
+const workshopsTableName = "Workshops";
 const options = {
   headers: {
     apikey: "sb_publishable_ufVkQer6tuCPMGxARmZODw_d-_5JubH",
   },
 };
 
-const idag = new Date().toISOString().slice(0, 10);
-const eventsResponse = await fetch(
-  apiurl + eventsTableName + `?Dato=gte.${idag}&order=Dato.asc&limit=3`,
+interface Workshop {
+  id: string;
+  name: string;
+  date: string;
+  description: string;
+  image: string;
+}
+
+const workshopsResponse = await fetch(
+  apiurl + workshopsTableName + "?select=id,name,date,description,image",
   options,
 );
-const eventsData = await eventsResponse.json();
-const maaneder = ["Jan", "Feb", "Mar", "Apr", "Maj", "Jun", "Jul", "Aug", "Sep", "Okt", "Nov", "Dec"];
+const workshopsData = (await workshopsResponse.json()) as Workshop[];
 
-const events = eventsData.map((event) => {
-  const dato = new Date(event.Dato);
+const workshops = workshopsData.map((workshop) => {
+  const [dag = "", ...maanedParts] = workshop.date.trim().split(/\s+/);
 
   return {
-    dag: String(dato.getUTCDate()),
-    maaned: maaneder[dato.getUTCMonth()],
-    title: event.Navn,
-    tid: "Kl. " + event.Tid + " · Tech & Story Lab",
+    dag: dag.replace(/\.$/, ""),
+    maaned: maanedParts.join(" "),
+    title: workshop.name,
+    tid: workshop.description,
+    href: `/Workshops/${encodeURIComponent(workshop.id)}`,
   };
 });
 
@@ -63,8 +70,8 @@ const projekter = [
       baggrund="gradient-wine-pink"
       tekstfarve="pink"
     >
-      {events.map((event) => (
-        <EventCard {...event} href="/events" farve="pink" />
+      {workshops.slice(0, 3).map((workshop) => (
+        <EventCard {...workshop} farve="pink" />
       ))}
     </Section>
   </div>

@@ -1,6 +1,7 @@
 
 ---
 import BookingForm from "../../components/BookingForm.astro";
+import Button from "../../components/Button.astro";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 
 interface Workshop {
@@ -74,10 +75,6 @@ if (!workshop) {
 
       <div class="detail-container">
 
-      <a href="/events#kalender" class="back-link">
-        ← Tilbage til kalenderen
-      </a>
-
       <div class="detail-grid">
 
         <div class="detail-content">
@@ -91,9 +88,9 @@ if (!workshop) {
             {workshop.description}
           </p>
 
-          <a href="/events#kalender" class="back-link">
-            Se andre workshops →
-          </a>
+          <div class="detail-back-button">
+            <Button href="/events#kalender">Tilbage til kalenderen</Button>
+          </div>
         </div>
 
         <div class="detail-image">
@@ -129,11 +126,10 @@ if (!workshop) {
     margin: 0 auto;
   }
 
-  .back-link {
-    display: inline-block;
-    color: var(--color-yellow);
-    margin-bottom: 60px;
-    text-decoration: none;
+  .detail-back-button {
+    display: flex;
+    justify-content: flex-start;
+    margin-top: 30px;
   }
 
   .detail-grid {
