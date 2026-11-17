@@ -65,45 +65,56 @@ const { title, subtitle, baggrund = "gradient-wine", kort } = Astro.props;
 </section>
 
 <script>
-  // Kører for hver karrusel på siden, så der kan være flere
-  document.querySelectorAll<HTMLElement>(".karrusel").forEach((karrusel) => {
-    const track = karrusel.querySelector<HTMLElement>(".karrusel__track");
-    const items = karrusel.querySelectorAll<HTMLElement>(".karrusel__item");
-    const arrows = karrusel.querySelectorAll<HTMLButtonElement>(".karrusel__arrow");
-    const dots = karrusel.querySelectorAll<HTMLButtonElement>(".karrusel__dot");
+  function startKarruseller() {
+    // Kører for hver karrusel på siden, så der kan være flere
+    document.querySelectorAll<HTMLElement>(".karrusel").forEach((karrusel) => {
+      // Spring over, hvis karrusellen allerede er sat op
+      if (karrusel.dataset.klar) return;
+      karrusel.dataset.klar = "true";
 
-    if (!track || items.length === 0) return;
+      const track = karrusel.querySelector<HTMLElement>(".karrusel__track");
+      const items = karrusel.querySelectorAll<HTMLElement>(".karrusel__item");
+      const arrows = karrusel.querySelectorAll<HTMLButtonElement>(".karrusel__arrow");
+      const dots = karrusel.querySelectorAll<HTMLButtonElement>(".karrusel__dot");
 
-    // Hvor langt der er fra ét kort til det næste (kortets bredde + mellemrum)
-    function step() {
-      if (items.length < 2) return items[0].offsetWidth;
-      return items[1].offsetLeft - items[0].offsetLeft;
-    }
+      if (!track || items.length === 0) return;
 
-    // Pilene: ryk ét kort frem eller tilbage
-    arrows.forEach((arrow) => {
-      arrow.addEventListener("click", () => {
-        const dir = Number(arrow.dataset.dir);
-        track.scrollBy({ left: dir * step(), behavior: "smooth" });
+      // Hvor langt der er fra ét kort til det næste (kortets bredde + mellemrum)
+      function step() {
+        if (items.length < 2) return items[0].offsetWidth;
+        return items[1].offsetLeft - items[0].offsetLeft;
+      }
+
+      // Pilene: ryk ét kort frem eller tilbage
+      arrows.forEach((arrow) => {
+        arrow.addEventListener("click", () => {
+          const dir = Number(arrow.dataset.dir);
+          track.scrollBy({ left: dir * step(), behavior: "smooth" });
+        });
+      });
+
+      // Prikkerne: hop direkte til et bestemt kort
+      dots.forEach((dot) => {
+        dot.addEventListener("click", () => {
+          const index = Number(dot.dataset.index);
+          track.scrollTo({ left: index * step(), behavior: "smooth" });
+        });
+      });
+
+      // Når man scroller eller swiper: opdater, hvilken prik der er aktiv
+      track.addEventListener("scroll", () => {
+        const active = Math.round(track.scrollLeft / step());
+        dots.forEach((dot, index) => {
+          dot.classList.toggle("active", index === active);
+        });
       });
     });
+  }
 
-    // Prikkerne: hop direkte til et bestemt kort
-    dots.forEach((dot) => {
-      dot.addEventListener("click", () => {
-        const index = Number(dot.dataset.index);
-        track.scrollTo({ left: index * step(), behavior: "smooth" });
-      });
-    });
-
-    // Når man scroller eller swiper: opdater, hvilken prik der er aktiv
-    track.addEventListener("scroll", () => {
-      const active = Math.round(track.scrollLeft / step());
-      dots.forEach((dot, index) => {
-        dot.classList.toggle("active", index === active);
-      });
-    });
-  });
+  // Første indlæsning
+  startKarruseller();
+  // Efter navigation med view transitions
+  document.addEventListener("astro:page-load", startKarruseller);
 </script>
 
 <style>
