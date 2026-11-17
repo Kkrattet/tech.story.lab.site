@@ -59,6 +59,23 @@ const udstyrspakkerKort = [
   },
 ];
 
+let udstyrsPakker = [];
+
+data.forEach((udstyr) => {
+  if(udstyr.Kategori === "Pakke") {
+    udstyrsPakker.push({
+        title: udstyr.Navn,
+        text: udstyr.Beskrivelse,
+        href: "#",
+        linkLabel: "Lån pakken",
+        image: udstyr.Billede,
+      })
+    }
+  }
+)
+
+console.log("udstyrsPakker", udstyrsPakker);
+
 ---
 
 <BaseLayout title="Udstyr">
@@ -76,8 +93,10 @@ const udstyrspakkerKort = [
    <CardKarrusel
     title="UDSTYRSPAKKE"
     subtitle="Alt det, du skal bruge, samlet i én pakke."
-    kort={udstyrspakkerKort}
+    kort={udstyrsPakker}
   />
+
+  
 
 
 
@@ -91,7 +110,27 @@ const udstyrspakkerKort = [
   buttonHref="#"
   >
 
-  <Card
+
+{
+    data.map((udstyr) => {
+      if(udstyr.udstyr_section === "foto-video") {
+        return <Card
+                image={udstyr.Billede}
+                imageAlt = `Billede af ${udstyr.Navn}`
+                title={udstyr.Navn}
+                text={udstyr.Beskrivelse}
+                href="#"
+                farve="pink"
+                status={udstyr.Ledigt? "Ledig nu" : "Optaget"}
+                linkLabel="Se ledighed"
+              />
+        }
+    })
+  }
+
+
+
+  <!-- <Card
   title="Canon-objektiv"
   text="Skarpe portrætter og interviews"
   href="#"
@@ -116,7 +155,7 @@ const udstyrspakkerKort = [
   farve="wine"
   status="Ledig nu"
   linkLabel="Se ledighed"
-/>
+/> -->
   </Section>
 
    <Section
@@ -188,7 +227,26 @@ const udstyrspakkerKort = [
   buttonHref="#"
   >
 
-  <Card
+{
+    data.map((udstyr) => {
+      if(udstyr.udstyr_section === "vr-ar-360") {
+        return <Card
+                image={udstyr.Billede}
+                imageAlt = `Billede af ${udstyr.Navn}`
+                title={udstyr.Navn}
+                text={udstyr.Beskrivelse}
+                href="#"
+                farve="pink"
+                status={udstyr.Ledigt? "Ledig nu" : "Optaget"}
+                linkLabel="Se ledighed"
+              />
+        }
+    })
+  }
+
+
+  
+  <!-- <Card
   title="VR-headset"
   text="Oplev og test fortællinger i VR"
   href="#"
@@ -213,7 +271,7 @@ const udstyrspakkerKort = [
   farve="wine"
   status="Optaget"
   linkLabel="Se ledighed"
-/>
+/> -->
   </Section>
 
 
