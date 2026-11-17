@@ -27,17 +27,13 @@ const {
 ---
 
 <article class={`card card--${farve}`}>
-  {image ? (
+  {image && (
     <img
       class="card__image"
       src={typeof image === "string"? image : image.src}
       alt={imageAlt}
       loading="lazy"
     />
-  ) : (
-    <div class="card__placeholder" aria-hidden="true">
-
-    </div>
   )}
 
   <div class="card__body">
@@ -95,28 +91,6 @@ const {
       55% 100%,
       0% 88%
     );
-  }
-
-
-  /* Pladsholder med kryds, indtil billedet er sat ind */
-  .card__placeholder {
-    display: grid;
-    place-items: center;
-    height: 284px;
-    border: 2px dashed rgba(253, 249, 237, 0.6);
-    border-radius: 12px;
-    background:
-      linear-gradient(to top right, transparent calc(50% - 1px), rgba(253, 249, 237, 0.6) 50%, transparent calc(50% + 1px)),
-      linear-gradient(to bottom right, transparent calc(50% - 1px), rgba(253, 249, 237, 0.6) 50%, transparent calc(50% + 1px));
-  }
-
-  .card__placeholder span {
-    padding: 4px 12px;
-    border-radius: 12px;
-    background: rgba(0, 0, 0, 0.25);
-    font-size: 0.875rem;
-    font-weight: 600;
-    text-transform: uppercase;
   }
 
   .card__body {

@@ -4,9 +4,11 @@ import Hero from "../components/Hero.astro";
 import Section from "../components/Section.astro";
 import TeamCard from "../components/TeamCard.astro";
 import Button from "../components/Button.astro";
+import ImageText from "../components/ImageText.astro";
+import { Image } from "astro:assets";
 
 // Billeder
-import teamet from "../assets/image/teamet-gruppe.png";
+import heroOm from "../assets/image/teamet-gruppe.png";
 import frederick from "../assets/image/teamet-frederick.png";
 import luke from "../assets/image/teamet-luke.png";
 import mikki from "../assets/image/teamet-mikki.png";
@@ -18,6 +20,7 @@ import hvemErVi from "../assets/image/studio1.webp";
 type TeamMember = {
   navn: string;
   rolle: string;
+  image: ImageMetadata;
   href: string;
   farve: "pink" | "wine";
 };
@@ -27,24 +30,28 @@ const team: TeamMember[] = [
   {
     navn: "Frederick Rossling",
     rolle: "LAB-MANAGER",
+    image: frederick,
     href: "#",
     farve: "pink",
   },
   {
     navn: "Luke Frost",
     rolle: "LAB-MANAGER",
+    image: luke,
     href: "#",
     farve: "pink",
   },
   {
     navn: "Mikki Simonsen",
     rolle: "LAB-MANAGER",
+    image: mikki,
     href: "#",
     farve: "pink",
   },
   {
     navn: "Kristoffer Hyum Nielsen",
     rolle: "LAB-ASSISTENT",
+    image: kristoffer,
     href: "#",
     farve: "pink",
   },
@@ -59,6 +66,8 @@ const team: TeamMember[] = [
     title="Mød nørderne bag labbet"
     subtitle="Spørg os om alt. Vi elsker det."
     text="Vi er fire nørder med hver vores speciale – fra lyd og podcast til VR og programmering. Kig forbi i A025, så hjælper vi dig i gang med dit projekt."
+      image={heroOm}
+  imageAlt="De fire nørder bag Tech & Story Lab"
     buttons={[
       { label: "Spørg os", href: "#find-os" },
     ]}
@@ -122,8 +131,9 @@ const team: TeamMember[] = [
 
     <div class="find-content" id="find-os">
 
-      <!-- Plads til billede fra Supabase -->
-      <div class="find-image">
+      <!-- Billede -->
+            <div class="find-image">
+        <Image src={findOs} alt="Studiet i Tech & Story Lab" />
       </div>
 
       <!-- Information -->
@@ -165,47 +175,22 @@ const team: TeamMember[] = [
 
 
   <!-- HVEM ER VI -->
-  <Section
+  <ImageText
     title="Hvem er vi"
     subtitle="Et sted for alle – uanset erfaring."
+    text={[
+      "Tech & Story Lab er EK's åbne lab for teknologi og storytelling.",
+      "Her kan du udforske, eksperimentere og arbejde med lyd, video, VR og meget mere.",
+      "Vi hjælper dig fra den første idé til det færdige projekt. Du behøver ikke være ekspert – du skal bare være nysgerrig.",
+    ]}
+    image={hvemErVi}
+    imageAlt="Fotostudie i Tech & Story Lab"
+    buttonText="Jeg er ny"
+    buttonHref="/ny-i-labbet"
     baggrund="gradient-bordeaux-wine"
     tekstfarve="lys"
-    kolonner={1}
-  >
-
-    <div class="about-content">
-
-      <div class="about-text">
-
-        <p>
-          Tech & Story Lab er EK's åbne lab for teknologi
-          og storytelling.
-        </p>
-
-        <p>
-          Her kan du udforske, eksperimentere og arbejde
-          med lyd, video, VR og meget mere.
-        </p>
-
-        <p>
-          Vi hjælper dig fra den første idé til det
-          færdige projekt. Du behøver ikke være ekspert –
-          du skal bare være nysgerrig.
-        </p>
-
-        <Button href="/ny-i-labbet">
-          Jeg er ny
-        </Button>
-
-      </div>
-
-      <!-- Plads til billede fra Supabase -->
-      <div class="about-image">
-      </div>
-
-    </div>
-
-  </Section>
+    omvendt
+  />
 
 </BaseLayout>
 
@@ -269,19 +254,6 @@ const team: TeamMember[] = [
   border-radius: 28px;
 }
 
-/* Navn */
-/* .team-item :global(.team__name) {
-  max-width: 190px;
-  font-size: 1.65rem;
-  line-height: 1;
-}
-
-/* Rolle */
-/* .team-item :global(.team__role) {
-  margin-top: 10px;
-  font-size: 0.75rem;
-} */ */
-
 /* Pil på kortet */
 .team-item :global(.team__arrow) {
   left: 18px;
@@ -310,8 +282,6 @@ const team: TeamMember[] = [
 
   border-radius: 50%;
   color: var(--color-black);
-  /* font-size: 22px;
-  font-weight: 900; */
   text-decoration: none;
 }
 
@@ -360,7 +330,23 @@ const team: TeamMember[] = [
 .find-image {
   min-height: 230px;
   overflow: hidden;
-  border-radius: 20px;
+  clip-path: polygon(
+    0% 8%,
+    62% 0%,
+    100% 9%,
+    97% 90%,
+    54% 100%,
+    0% 87%
+  );
+}
+
+/* Billedet fylder hele sit felt */
+.find-image img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 30%;
 }
 
 .find-info {
@@ -387,29 +373,6 @@ const team: TeamMember[] = [
   margin: 0;
   font-size: 0.9rem;
   line-height: 1.6;
-}
-
-
-/* HVEM ER VI */
-
-.about-content {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 24px;
-}
-
-.about-text p {
-  margin: 0 0 18px;
-  font-size: 0.95rem;
-  line-height: 1.7;
-}
-
-.about-image {
-  width: 100%;
-  max-width: 450px;
-  height: 300px;
-  overflow: hidden;
-  border-radius: 20px;
 }
 
 
@@ -460,23 +423,6 @@ const team: TeamMember[] = [
 
   .find-info {
     padding: 32px;
-  }
-
-
-  /* HVEM ER VI */
-  .about-content {
-    grid-template-columns: 1fr 1fr;
-    gap: 50px;
-    align-items: start;
-  }
-
-  .about-image {
-    justify-self: center;
-    height: 500px;
-  }
-
-  .about-text {
-    max-width: 500px;
   }
 }
 

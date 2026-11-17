@@ -98,9 +98,21 @@ const afsnit = Array.isArray(text) ? text : text ? [text] : [];
     order: 2;
   }
 
+    /* Beskæring af billedet  */
   .imagetext__image {
     width: 100%;
     height: auto;
+    aspect-ratio: 1.07 / 1;
+    object-fit: cover;
+    object-position: center 20%;
+    clip-path: polygon(
+      0% 8%,
+      62% 0%,
+      100% 9%,
+      97% 90%,
+      54% 100%,
+      0% 87%
+    );
   }
 
   .imagetext__placeholder {

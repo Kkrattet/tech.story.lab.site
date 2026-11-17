@@ -12,13 +12,9 @@ import watermarkEvents from "../assets/watermark04.svg";
 import watermarkTeamet from "../assets/watermark05.svg";
 import billedeTeamet from "../assets/image/teamet-gruppe.png";
 import logo from "../assets/logo.svg";
-import { dev } from "astro";
 
 // Supabase
 const apiurl = "https://pynptdpmxtmlymghsvwv.supabase.co/rest/v1/";
-
-const udstyrTableName = "Udstyr";
-const teametTableName = "Teamet";
 const workshopsTableName = "Workshops";
 
 interface Workshop {
@@ -37,22 +33,11 @@ const options = {
   },
 };
 
-const udstyrResponse = await fetch(apiurl + udstyrTableName, options);
-const udstyrData = await udstyrResponse.json();
-console.log("udstyrData", udstyrData);
-
-const teametResponse = await fetch(apiurl + teametTableName, options);
-const teametData = await teametResponse.json();
-console.log("teametData", teametData);
-
 const workshopsResponse = await fetch(
   apiurl + workshopsTableName + "?select=id,name,date,description,image",
   options,
 );
 const workshopsData = (await workshopsResponse.json()) as Workshop[];
-console.log("workshopsData", workshopsData);
-
-
 
 // Billeder til "Find vej i labbet"
 import kortStudio from "../assets/image/studio1.webp";
@@ -65,9 +50,9 @@ import kortOmOs from "../assets/image/teamet-gruppe.png";
 
 // Billeder til "Bliv inspireret"
 import projektKarma from "../assets/image/podcast1.webp";
-import projektKigger from "../assets/image/camera1.webp";
+import projektKigger from "../assets/image/vr4.webp";
 import projektGraenser from "../assets/image/vr1.jpg";
-import projektPortraetter from "../assets/image/camera2.webp";
+import projektPortraetter from "../assets/image/camera1.webp";
 import projektKulisser from "../assets/image/studio7.webp";
 import projektSammen from "../assets/image/studies.webp";
 import projektLinjer from "../assets/image/podcast2.webp";

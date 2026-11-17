@@ -24,13 +24,9 @@ const {
     <p class="team__role">{rolle}</p>
   </div>
 
-  {image ? (
+  {image && (
     <div class="team-image">
       <Image class="team__photo" src={image} alt={`Portræt af ${navn}`} loading="lazy" />
-    </div>
-  ) : (
-    <div class="team-image team__placeholder" aria-hidden="true">
-      <span>Foto</span>
     </div>
   )}
 
@@ -101,25 +97,6 @@ const {
     height: 100%;
     object-fit: cover;
     object-position: center top;
-  }
-
-  .team__placeholder {
-    display: grid;
-    place-items: center;
-    border: 2px dashed rgba(253, 249, 237, 0.6);
-    border-radius: 12px;
-    background:
-      linear-gradient(to top right, transparent calc(50% - 1px), rgba(253, 249, 237, 0.6) 50%, transparent calc(50% + 1px)),
-      linear-gradient(to bottom right, transparent calc(50% - 1px), rgba(253, 249, 237, 0.6) 50%, transparent calc(50% + 1px));
-  }
-
-  .team__placeholder span {
-    padding: 4px 12px;
-    border-radius: 12px;
-    background: rgba(0, 0, 0, 0.25);
-    font-size: 0.875rem;
-    font-weight: 600;
-    text-transform: uppercase;
   }
 
   /* Rund gul pil nederst til venstre */

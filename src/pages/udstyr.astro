@@ -1,18 +1,19 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Hero from "../components/Hero.astro";
-
-import Button from "../components/Button.astro"
-
-import Card from "../components/Card.astro"
-
-import CardKarrusel from "../components/CardKarrusel.astro"
-
+import Card from "../components/Card.astro";
+import CardKarrusel from "../components/CardKarrusel.astro";
 import Section from "../components/Section.astro";
-
 import heroUdstyr from "../assets/image/studio5.webp";
 
-
+interface Udstyr {
+  Navn: string;
+  Beskrivelse: string;
+  Billede: string;
+  Kategori: string;
+  udstyr_section: string;
+  Ledigt: boolean;
+}
 
 const url = "https://pynptdpmxtmlymghsvwv.supabase.co/rest/v1/";
 const table = "Udstyr";
@@ -25,13 +26,9 @@ const options = {
 };
 
 const response = await fetch(url + table, options);
-const data = await response.json();
+const data = (await response.json()) as Udstyr[];
 
-console.log(data);
-
-
-
-let udstyrsPakker = [];
+let udstyrsPakker: { title: string; text: string; href: string; linkLabel: string; image: string }[] = [];
 
 data.forEach((udstyr) => {
   if(udstyr.Kategori === "Pakke") {
@@ -45,14 +42,11 @@ data.forEach((udstyr) => {
     }
   }
 )
-
-console.log("udstyrsPakker", udstyrsPakker);
-
 ---
 
 <BaseLayout title="Udstyr">
     <Hero
- eyebrow="Tech & Story Lab"
+  eyebrow="Udstyr"
     title="Udstyr"
     subtitle="Lån det. Lær det. Lav noget med det."
     text="Gratis for studerende."
@@ -61,18 +55,11 @@ console.log("udstyrsPakker", udstyrsPakker);
     buttons={[{ label: "Find udstyr", href: "#udstyr" }]}  
   />
 
- 
-
-
    <CardKarrusel
     title="UDSTYRSPAKKE"
     subtitle="Alt det, du skal bruge, samlet i én pakke."
     kort={udstyrsPakker}
   />
-
-  
-
-
 
   <Section
     title="FOTO & VIDEO"
@@ -84,7 +71,6 @@ console.log("udstyrsPakker", udstyrsPakker);
   buttonHref="#"
   >
 
-
 {
     data.map((udstyr) => {
       if(udstyr.udstyr_section === "foto-video") {
@@ -94,7 +80,7 @@ console.log("udstyrsPakker", udstyrsPakker);
                 title={udstyr.Navn}
                 text={udstyr.Beskrivelse}
                 href="#"
-                farve="pink"
+                farve="wine"
                 status={udstyr.Ledigt? "Ledig nu" : "Optaget"}
                 linkLabel="Se ledighed"
               />
@@ -102,34 +88,6 @@ console.log("udstyrsPakker", udstyrsPakker);
     })
   }
 
-
-
-  <!-- <Card
-  title="Canon-objektiv"
-  text="Skarpe portrætter og interviews"
-  href="#"
-  farve="wine"
-  status="Optaget"
-  linkLabel="Se ledighed"
-/>
-
-<Card
-  title="Sony Alpha"
-  text="Foto og video i høj kvalitet"
-  href="#"
-  farve="wine"
-  status="Ledig nu"
-  linkLabel="Se ledighed"
-/>
-
-<Card
-  title="GoPro"
-  text="Action og POV-optagelser"
-  href="#"
-  farve="wine"
-  status="Ledig nu"
-  linkLabel="Se ledighed"
-/> -->
   </Section>
 
    <Section
@@ -159,36 +117,6 @@ console.log("udstyrsPakker", udstyrsPakker);
     })
   }
 
-  <!--
-
-  <Card
-  title="LED-panel"
-  text="Blødt lys til video og foto"
-  href="#"
-  farve="pink"
-  status="Ledig nu"
-  linkLabel="Se ledighed"
-/>
-
-<Card
-  title="Stativ"
-  text="Faste og rolige billeder"
-  href="#"
-  farve="pink"
-  status="Ledig nu"
-  linkLabel="Se ledighed"
-/>
-
-<Card
-  title="DJI Ronin"
-  text="Glidende kamerabevægelser"
-  href="#"
-  farve="pink"
-  status="Optaget"
-  linkLabel="Se ledighed"
-/>
-
- -->
   </Section>
   
   <Section
@@ -210,7 +138,7 @@ console.log("udstyrsPakker", udstyrsPakker);
                 title={udstyr.Navn}
                 text={udstyr.Beskrivelse}
                 href="#"
-                farve="pink"
+                farve="wine"
                 status={udstyr.Ledigt? "Ledig nu" : "Optaget"}
                 linkLabel="Se ledighed"
               />
@@ -218,37 +146,6 @@ console.log("udstyrsPakker", udstyrsPakker);
     })
   }
 
-
-  
-  <!-- <Card
-  title="VR-headset"
-  text="Oplev og test fortællinger i VR"
-  href="#"
-  farve="wine"
-  status="Ledig nu"
-  linkLabel="Se ledighed"
-/>
-
-<Card
-  title="360-kamera"
-  text="Optag hele rummet på én gang"
-  href="#"
-  farve="wine"
-  status="Ledig nu"
-  linkLabel="Se ledighed"
-/>
-
-<Card
-  title="Drone"
-  text="Optagelser fra luften"
-  href="#"
-  farve="wine"
-  status="Optaget"
-  linkLabel="Se ledighed"
-/> -->
   </Section>
 
-
-  
 </BaseLayout>
-

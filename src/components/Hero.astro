@@ -118,6 +118,12 @@ const {
     grid-template-columns: minmax(0, 640px) minmax(0, 664px);
   }
 
+    /* Teksten starter samme sted på alle undersider */
+  .hero--side .hero__content {
+    align-self: start;
+    padding-top: 80px;
+  }
+
   /* Billedet: til venstre på forsiden, til højre på undersiderne */
   .hero__image {
     width: 100%;
@@ -258,6 +264,9 @@ const {
 
     .hero__watermark {
       height: 50%;
+    }
+        .hero--side .hero__content {
+      padding-top: 0;
     }
   }
 </style>

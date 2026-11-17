@@ -4,18 +4,11 @@ import Watermark from "./Watermark.astro";
 import watermark from "../assets/watermark03.svg";
 import kameraBillede from "../assets/kamera.svg";
 
-
-// Ikoner – fjern // foran linjerne, når ikonerne ligger i src/assets
-// import ikonKamera from "../assets/ikon-kamera.svg";
-// import ikonKalender from "../assets/ikon-kalender.svg";
-// import ikonPersoner from "../assets/ikon-personer.svg";
-// import ikonKlaptrae from "../assets/ikon-klaptrae.svg";
-
-const trin: { label: string; ikon?: ImageMetadata }[] = [
-  { label: "1. Find udstyret" /*, ikon: ikonKamera */ },
-  { label: "2. Tjek ledighed" /*, ikon: ikonKalender */ },
-  { label: "3. Få introduktion" /*, ikon: ikonPersoner */ },
-  { label: "4. Skab noget!" /*, ikon: ikonKlaptrae */ },
+const trin = [
+  { nummer: 1, label: "Find udstyret" },
+  { nummer: 2, label: "Tjek ledighed" },
+  { nummer: 3, label: "Få introduktion" },
+  { nummer: 4, label: "Skab noget!" },
 ];
 ---
 
@@ -40,7 +33,7 @@ const trin: { label: string; ikon?: ImageMetadata }[] = [
         {trin.map((step) => (
           <li class="ny__step">
             <span class="ny__circle">
-              {step.ikon && <img src={step.ikon.src} alt="" width={step.ikon.width} height={step.ikon.height} />}
+              <span class="ny__number" aria-hidden="true">{step.nummer}</span>
             </span>
             <span class="ny__label">{step.label}</span>
           </li>
@@ -135,9 +128,16 @@ const trin: { label: string; ikon?: ImageMetadata }[] = [
     background: var(--color-pink);
   }
 
-  .ny__circle img {
-    width: 75%;
-    height: auto;
+  /* Stort tal i cirklen */
+.ny__number {
+    display: block;
+    font-family: var(--font-sans-condensed);
+    font-size: 5rem;
+    font-weight: 700;
+    line-height: 1;
+    color: var(--color-wine);
+    font-variant-numeric: lining-nums;
+    text-box: trim-both cap alphabetic;
   }
 
   /* B2 – 16 Oso Sans, Semibold */
@@ -186,6 +186,10 @@ const trin: { label: string; ikon?: ImageMetadata }[] = [
     .ny__circle {
       width: 110px;
       height: 110px;
+    }
+
+    .ny__number {
+      font-size: 4rem;
     }
 
     .ny__button {
